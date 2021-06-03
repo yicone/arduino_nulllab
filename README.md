@@ -1,3 +1,4 @@
+**[中文](READE_zh.md)**
 # Arduino Hardware Support Package for LGT8F's 
 
 ### Task status
