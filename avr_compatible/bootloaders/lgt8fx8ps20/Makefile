@@ -168,6 +168,8 @@ endif
 ifdef LED_DATA_FLASH
 LED_DATA_FLASH_CMD = -DLED_DATA_FLASH=1
 dummy = FORCE
+#else
+#LED_DATA_FLASH_CMD= -DLED_DATA_FLASH=1
 endif
 
 ifdef LED
@@ -331,24 +333,25 @@ atmega8_isp: HFUSE ?= CC
 atmega8_isp: LFUSE ?= BF
 atmega8_isp: isp
 
-# LGT8F88D/SSOP20
+# LGT8F328P
 #
-lgt8f88ds20: EXT_OSC ?= 0
-lgt8f88ds20: TARGET = lgt8f88ds20
-lgt8f88ds20: MCU_TARGET = atmega88
-lgt8f88ds20: CFLAGS += $(COMMON_OPTIONS)
-lgt8f88ds20: CFLAGS += '-DVIRTUAL_BOOT_PARTITION'
-lgt8f88ds20: AVR_FREQ ?= 16000000L 
-lgt8f88ds20: LDSECTIONS = -Wl,--section-start=.bootv=0x0
-lgt8f88ds20: LDSECTIONS += -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffa
-lgt8f88ds20: $(PROGRAM)_lgt8f88ds20.elf
-lgt8f88ds20: $(PROGRAM)_lgt8f88ds20.hex
-lgt8f88ds20: $(PROGRAM)_lgt8f88ds20.lst
+lgt8f328ps20: EXT_OSC ?= 0
+lgt8f328ps20: TARGET = lgt8f328ps20
+lgt8f328ps20: MCU_TARGET = atmega328p
+lgt8f328ps20: CFLAGS += $(COMMON_OPTIONS)
+#lgt8f328ps20: CFLAGS += $(COMMON_OPTIONS) '-DSOFT_UART'
+lgt8f328ps20: CFLAGS += '-DVIRTUAL_BOOT_PARTITION'
+lgt8f328ps20: AVR_FREQ ?= 16000000L 
+lgt8f328ps20: LDSECTIONS = -Wl,--section-start=.bootv=0x0
+lgt8f328ps20: LDSECTIONS += -Wl,--section-start=.text=0x7400 -Wl,--section-start=.version=0x77fe
+lgt8f328ps20: $(PROGRAM)_lgt8f328ps20.elf
+lgt8f328ps20: $(PROGRAM)_lgt8f328ps20.hex
+lgt8f328ps20: $(PROGRAM)_lgt8f328ps20.lst
 
-lgt8f88ds20_isp: lgt8f88ds20
-lgt8f88ds20_isp: TARGET = lgt8f88ds20
-lgt8f88ds20_isp: MCU_TARGET = atmega88
-lgt8f88ds20_isp: isp
+lgt8f328ps20_isp: lgt8f328ps20
+lgt8f328ps20_isp: TARGET = lgt8f328ps20
+lgt8f328ps20_isp: MCU_TARGET = atmega323p
+lgt8f328ps20_isp: isp
 
 atmega32: TARGET = atmega32
 atmega32: MCU_TARGET = atmega32

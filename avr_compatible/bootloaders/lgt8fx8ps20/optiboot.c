@@ -199,9 +199,19 @@
 #define MAKESTR(a) #a
 #define MAKEVER(a, b) MAKESTR(a*256+b)
 
-// boot_code : jmp to 0x1c00 (start of bootloader)
+#if defined (__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
+// boot_code : jmp to 0x7400 (start of bootloader)
 asm("	.section .bootv\n"
-    "boot_code: .word 0xcdff\n");
+    "boot_code: .word 0x940c\n"
+    ".word 0x3a00\n");
+#else
+#if #defined(__AVR_ATmega168__)
+// boot_code : jmp to 0x3c00 (start of bootloader)
+asm("	.section .bootv\n"
+    "boot_code: .word 0x940c\n"
+    ".word 0x1e00\n");
+#endif
+#endif
 
 asm("  .section .version\n"
     "optiboot_version:  .word " MAKEVER(OPTIBOOT_MAJVER, OPTIBOOT_MINVER) "\n"
@@ -214,7 +224,12 @@ asm("  .section .version\n"
 
 #include "pin_defs.h"
 #include "stk500.h"
-#include "lgtx8e.h"
+#include "lgtx8p.h"
+
+typedef union {
+	uint32_t dword;
+	uint8_t byte[4];
+} *pdword_t, dword_t;
 
 #ifndef LED_START_FLASHES
 #define LED_START_FLASHES 0
@@ -355,8 +370,10 @@ void appStart(uint8_t rstFlags) __attribute__ ((naked));
 /* This allows us to drop the zero init code, saving us memory */
 #define buff    ((uint8_t*)(RAMSTART))
 #ifdef VIRTUAL_BOOT_PARTITION
-#define rstVect (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 4))
-#define wdtVect (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 6))
+#define rstVect0 (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 4))
+#define rstVect1 (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 6))
+#define wdtVect0 (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 8))
+#define wdtVect1 (*(volatile uint16_t*)(RAMSTART + SPM_PAGESIZE + 10))
 #endif
 
 /*
@@ -402,7 +419,7 @@ void appStart(uint8_t rstFlags) __attribute__ ((naked));
 /* main program starts here */
 int main(void) {
   uint8_t ch;
-  uint16_t pmask;
+  uint32_t pmask;
 
   /*
    * Making these local and in registers prevents the need for initializing
@@ -425,12 +442,6 @@ int main(void) {
   asm volatile ("clr __zero_reg__");
   SP=RAMEND;  // This is done by hardware reset
 
-#if EXT_OSC == 1
-  // external crsyall flag
-  VDTCR = 0x80;
-  VDTCR = 0x4C;
-#endif
-
   // Adaboot no-wait mod
   ch = MCUSR;
   MCUSR = 0;
@@ -441,22 +452,19 @@ int main(void) {
   PMCR = 0x80;
   PMCR = 0x93;
 
-#if EXT_OSC == 1
-#warning Using external crystal now!!!
-  // for case of 16MHz crystall, no clock divider
-  PMCR = 0x80;
-  PMCR = 0x97;
-  for(ch = 0xf; ch > 0; --ch);
-  PMCR = 0x80;
-  PMCR = 0xb7;
-
-  CLKPR = 0x80;
-  CLKPR = 0x00;
-#else
   // system clock: 16MHz system clock
   CLKPR = 0x80;
   CLKPR = 0x01;
-#endif
+
+  // switch usart to PD5/6
+  // switch spss to PB1
+  // switch oc1b to PF3/PD3
+  PMX0 = 0x80;
+  PMX0 = 0x47;
+
+  // enable 1KB E2PROM (for LGT8F328P)
+  ECCR = 0x80;
+  ECCR = 0x4C;
 
 #if LED_START_FLASHES > 0
   // Set up Timer 1 for timeout counter
@@ -471,19 +479,15 @@ int main(void) {
   UBRRL = (uint8_t)( (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 );
 #else
   //UART_SRA = _BV(U2X0); //Double speed mode USART0
-  ch = PMXCR | 0x03;
-  PMXCR = 0x80;
-  PMXCR = ch;
-
   UART_SRB = _BV(RXEN0) | _BV(TXEN0);
   UART_SRC = _BV(UCSZ00) | _BV(UCSZ01);
+  //UART_SRL = (uint8_t)( F_CPU / (BAUD_RATE * 8L) - 1 );
   UART_SRL = (uint8_t)( F_CPU / (BAUD_RATE * 16L) - 1 );
-  //UART_SRL = (uint8_t)( (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 );
 #endif
 #endif
 
   // Set up watchdog to trigger after 500ms
-  watchdogConfig(WATCHDOG_16MS);
+  watchdogConfig(WATCHDOG_32MS);
 
 #if (LED_START_FLASHES > 0) || defined(LED_DATA_FLASH)
   /* Set LED pin as output */
@@ -575,12 +579,13 @@ int main(void) {
       EEARH = address >> 8;
       ch = EEARH >> 2;	// 1KB page size
 
-      if((0 == (pmask & (((uint16_t)1 << ch)))) && bval == 'F') { 
-	pmask |= ((uint16_t)1 << ch);
+      if((0 == (pmask & (((uint32_t)1 << ch)))) && bval == 'F') { 
+	pmask |= ((uint32_t)1 << ch);
       	// do page erase here
       	EECR = 0x94;
       	EECR = 0x92;
-      	asm("nop"); asm("nop");      
+      	__asm__ __volatile__ ("nop" ::); 
+	__asm__ __volatile__ ("nop" ::);      
       }
 
       // Read command terminator, start reply
@@ -591,8 +596,8 @@ int main(void) {
       //boot_spm_busy_wait();
       if (bval == 'E') {
 	  for(len = 0; len < length; len++) {
-	    //if(address >= 512)
-		//    break;
+	    //if(address >= 1022)
+	 	//break;
 	    EEARL = address++;
 	    EEARH = address >> 8;
 	    EEDR = buff[len];
@@ -606,23 +611,30 @@ int main(void) {
 	  // bootloader runs.
 	  //
 	  // Move RESET vector to WDT vector
-	  uint16_t vect = buff[0] | (buff[1] << 8);
-	  rstVect = vect;
-	  wdtVect = buff[8] | (buff[9] << 8);
-	  vect -= 4;
-	  buff[8] = vect & 0xff;
-	  buff[9] = vect >> 8;
+	  rstVect0 = buff[0] | (buff[1] << 8);
+	  rstVect1 = buff[2] | (buff[3] << 8);
+	  wdtVect0 = buff[24] | (buff[25] << 8);
+	  wdtVect1 = buff[26] | (buff[27] << 8);
 
+	  buff[24] = buff[0];
+	  buff[25] = buff[1];
+	  buff[26] = buff[2];
+	  buff[27] = buff[3];
+	
 	  // Add jump to bootloader at RESET vector
-	  buff[0] = 0xff;
-	  buff[1] = 0xcd; // jmp 
+	  buff[0] = 0x0c;
+	  buff[1] = 0x94; // jmp 
+	  buff[2] = 0x00;
+	  buff[3] = 0x3a; // 0x7400 (0x3a00) 
 	}
 #endif
       	// Write from programming buffer
-	bufPtr = buff;
-      	for(length = 0; length < SPM_PAGESIZE; length+=2) {
-	      EEARL = 0; EEDR = *bufPtr++;
-	      EEARL = 1; EEDR = *bufPtr++;
+	pdword_t wPtr = (pdword_t)buff;
+      	for(length = 0; length < SPM_PAGESIZE; length+=4, wPtr++) {
+	      EEARL = 0; EEDR = wPtr->byte[0];
+	      EEARL = 1; EEDR = wPtr->byte[1];
+	      EEARL = 2; EEDR = wPtr->byte[2];
+	      EEARL = 3; EEDR = wPtr->byte[3];
 	      EEARL = (address + length) & 0xff;
 	      EECR = 0xA4;
 	      EECR = 0xA2;
@@ -645,23 +657,25 @@ int main(void) {
 	    EEARL = address++;
 	    EEARH = address >> 8;
 	    EECR = 0x01;
-	    asm("nop"); asm("nop");
-	    //if( address >= 512)
-		//    putch(0xff);
-	    //else
-		    putch(EEDR);
+	    __asm__ __volatile__ ("nop" ::);
+	    __asm__ __volatile__ ("nop" ::);
+	    putch(EEDR);
 	} while (--length);
       } else {
       	do {
 #ifdef VIRTUAL_BOOT_PARTITION
 	   // Undo vector patch in bottom page so verify passes
-	   if (address == 0)		ch = rstVect & 0xff;
-	   else if (address == 1)	ch = rstVect >> 8;
-	   else if (address == 8)	ch = wdtVect & 0xff;
-	   else if (address == 9)	ch = wdtVect >> 8;
+	   if (address == 0)		ch = rstVect0 & 0xff;
+	   else if (address == 1)	ch = rstVect0 >> 8;
+	   else if (address == 2)	ch = rstVect1 & 0xff;
+	   else if (address == 3)	ch = rstVect1 >> 8;
+	   else if (address == 24)	ch = wdtVect0 & 0xff;
+	   else if (address == 25)	ch = wdtVect0 >> 8;
+	   else if (address == 26)	ch = wdtVect1 & 0xff;
+	   else if (address == 27)	ch = wdtVect1 >> 8;
 	   else {
 	   // read a Flash byte and increment the address
-	#ifdef defined(RAMPZ)
+	#if defined(RAMPZ)
 	   // Since RAMPZ should already be set, we need to use EPLM directly.
 	   // read a Flash and increment the address (may increment RAMPZ)
 	   __asm__ ("elpm %0,Z\n" : "=r" (ch) : "z" (address));
@@ -809,7 +823,7 @@ void getNch(uint8_t count) {
 
 void verifySpace() {
   if (getch() != CRC_EOP) {
-    watchdogConfig(WATCHDOG_16MS);    // shorten WD timeout
+    watchdogConfig(WATCHDOG_32MS);    // shorten WD timeout
     while (1)			      // and busy-loop so that WD causes
       ;				      //  a reset and app start.
   }
@@ -852,7 +866,7 @@ void appStart(uint8_t rstFlags) {
   __asm__ __volatile__ (
 #ifdef VIRTUAL_BOOT_PARTITION
     // Jump to WDT vector
-    "ldi r30,0x04\n"
+    "ldi r30,0x0c\n"
     "clr r31\n"
 #else
     // Jump to RST vector

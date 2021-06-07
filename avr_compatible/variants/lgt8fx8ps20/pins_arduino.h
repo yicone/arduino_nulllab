@@ -22,17 +22,20 @@
   $Id: wiring.h 249 2007-02-03 16:52:51Z mellis $
 */
 
-#ifndef __LGT8FX8E__
-#define	__LGT8FX8E__
+#ifndef __LGT8FX8P__
+#define	__LGT8FX8P__
 
 #ifndef __LGT8F__
 #define	__LGT8F__
 #endif
 
-#include "lgtx8e.h"
+#include "lgtx8p.h"
+
+#ifndef __LGT8F_SSOP20__
+#define __LGT8F_SSOP20__
+#endif
 
 static const uint8_t DAC0 = 4;
-static const uint8_t DAC1 = 22;
 
 #include "../standard/pins_arduino.h"
 #undef NUM_ANALOG_INPUTS

@@ -93,14 +93,14 @@ Orang.bootloader.file=lgt8fx8p/optiboot_lgt8f328p.hex
 Orang.bootloader.unlock_bits=0x3f
 Orang.bootloader.lock_bits=0x3f
 Orang.build.mcu=atmega328p
-#Orang.build.f_cpu=32000000L
-Orang.build.f_cpu=16000000L
+Orang.build.f_cpu=32000000L
+#Orang.build.f_cpu=16000000L
 Orang.build.core=lgt8f
 Orang.build.variant=lgt8fx8p48
 Orang.build.board=AVR_LARDU_328E
 
 #############################
-#### Diy      ####
+#### Diy Board     ####
 #############################
 
 Diy.name= Diy Board
@@ -128,7 +128,7 @@ Diy.menu.arduino_isp.enable.build.SERIAL_RX_BUFFER_SIZE=250
 # Clock source
 Diy.menu.clock_source.internal=Internal
 Diy.menu.clock_source.internal.build.clock_source=1
-Diy.menu.clock_source.external=External (assumes 32MHz crystal)
+Diy.menu.clock_source.external=External (32MHz） 
 Diy.menu.clock_source.external.build.clock_source=2
 
 # Clock frequencies
@@ -146,31 +146,17 @@ Diy.menu.clock.1MHz=1 MHz
 Diy.menu.clock.1MHz.build.f_cpu=1000000L
 
 # Variants
-Diy.menu.variant.modelP48=LGT328p-LQFP48
+Diy.menu.variant.modelP48=LGT328P-LQFP48
 Diy.menu.variant.modelP48.bootloader.path=lgt8fx8p
 Diy.menu.variant.modelP48.bootloader.file=lgt8fx8p/optiboot_lgt8f328p.hex
 Diy.menu.variant.modelP48.build.variant=lgt8fx8p48
 
-Diy.menu.variant.modelP=LGT328p-LQFP32
+Diy.menu.variant.modelP=LGT328P-LQFP32
 Diy.menu.variant.modelP.bootloader.path=lgt8fx8p
 Diy.menu.variant.modelP.bootloader.file=lgt8fx8p/optiboot_lgt8f328p.hex
 Diy.menu.variant.modelP.build.variant=lgt8fx8p
-
-Diy.menu.variant.modelP-wemos-TTGO-XI=LGT328P-LQFP32 wemos-TTGO-XI
-Diy.menu.variant.modelP-wemos-TTGO-XI.bootloader.path=lgt8fx8p
-Diy.menu.variant.modelP-wemos-TTGO-XI.bootloader.file=lgt8fx8p/optiboot_lgt8f328p.hex
-Diy.menu.variant.modelP-wemos-TTGO-XI.build.variant=lgt8fx8p-wemos-TTGO-XI
-
-Diy.menu.variant.modelD=LGT328D (rare)
-Diy.menu.variant.modelD.bootloader.path=lgt8fx8e
-Diy.menu.variant.modelD.bootloader.file=lgt8fx8e/optiboot_lgt8f328d.hex
-Diy.menu.variant.modelD.build.variant=lgt8fx8e
 
 Diy.menu.variant.modelP_SSOP20=LGT328P-SSOP20
 Diy.menu.variant.modelP_SSOP20.bootloader.path=lgt8fx8ps20
 Diy.menu.variant.modelP_SSOP20.bootloader.file=lgt8fx8ps20/optiboot_lgt8f328ps20.hex
 Diy.menu.variant.modelP_SSOP20.build.variant=lgt8fx8ps20
-#Diy.menu.variant.modelD_SSOP20=LGT328D-SSOP20 (rare)
-#Diy.menu.variant.modelD_SSOP20.bootloader.path=lgt8fx8e
-#Diy.menu.variant.modelD_SSOP20.bootloader.file=lgt8fx8e/optiboot_lgt8f328d.hex
-#Diy.menu.variant.modelD_SSOP20.build.variant=lgt8fx8ds20
