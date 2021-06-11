@@ -69,38 +69,54 @@ void atomicWriteWord(volatile uint8_t *p, uint16_t val)
 
 void sysClock(uint8_t mode)
 {
-	if(mode == EXT_OSC) {
-		// enable external crystal
-		GPIOR0 = PMCR | 0x04;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
-		
-		// waiting for crystal stable
-		delay(20);
-
-		// switch to external crystal
-		GPIOR0 = (PMCR & 0x9f) | 0x20;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
-
-		// set to right prescale
-		CLKPR = 0x80;
-		CLKPR = 0x00;	
-	} else if(mode == INT_OSC) {
-		// prescaler settings
-		CLKPR = 0x80;
-		CLKPR = 0x01;	
-
+	if(mode == INT_OSC_32M) {
 		// switch to internal crystal
 		GPIOR0 = PMCR & 0x9f;
 		PMCR = 0x80;
 		PMCR = GPIOR0;
 
 		// disable external crystal
-		GPIOR0 = PMCR & 0xfb;
+		GPIOR0 = PMCR & 0xf3;
 		PMCR = 0x80;
 		PMCR = GPIOR0;
-	}
+
+	}  else if(mode == INT_OSC_32K) {
+	    // switch to internal 32K crystal
+		GPIOR0 = (PMCR & 0x9f) | 0x40;
+		PMCR = 0x80;
+		PMCR = GPIOR0;
+
+		// disable external crystal
+		GPIOR0 = (PMCR & 0xf2) | 0x02;
+		PMCR = 0x80;
+		PMCR = GPIOR0;
+	} else if(mode == EXT_OSC_32K) {
+        // enable external 32K OSC crystal
+        GPIOR0 = (PMCR & 0xf0) | 0x08;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
+        
+        // waiting for crystal stable
+        delay(20);
+    
+        // switch to external crystal
+        GPIOR0 = (PMCR & 0x9f) | 0x60;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
+   } else {
+        // enable external 400~32MHz OSC crystal
+        GPIOR0 = (PMCR & 0xf0) | 0x04;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
+        
+        // waiting for crystal stable
+        delay(20);
+    
+        // switch to external 400~32MHz crystal
+        GPIOR0 = (PMCR & 0x9f) | 0x20;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
+    }
 }
 
 #if defined(__LGT8FX8P__) || defined(__LGT8FX8E__)
@@ -310,12 +326,6 @@ void lgt8fx8x_init()
 	GPIOR1 = VCAL1;
 	GPIOR2 = VCAL2;
 
-#if defined(__LGT8F_SSOP20__)
-	GPIOR0 = PMXCR | 0x07;
-	PMXCR = 0x80;
-	PMXCR = GPIOR0;
-#endif
-
 // enable 1KB E2PROM 
 	ECCR = 0x80;
 	ECCR = 0x40;
@@ -323,27 +333,154 @@ void lgt8fx8x_init()
 // clock source settings
 	if((VDTCR & 0x0C) == 0x0C) {
 		// switch to external crystal
-		sysClock(EXT_OSC);
+		sysClock(EXT_OSC_32M);
 	} else {
 		CLKPR = 0x80;
 		CLKPR = 0x01;
 	}
 #else
-	// enable 32KRC for WDT
-	GPIOR0 = PMCR | 0x10;
-	PMCR = 0x80;
-	PMCR = GPIOR0;
 
-	// clock scalar to 16MHz
-	CLKPR = 0x80;
-	CLKPR = 0x01;
+#if defined(__LGT8F_SSOP20__)
+        GPIOR0 = PMXCR | 0x07;
+        PMXCR = 0x80;
+        PMXCR = GPIOR0;
+#endif
+
+	// enable 32KRC for WDT
+	 GPIOR0 = PMCR | 0x10;
+	 PMCR = 0x80;
+	 PMCR = GPIOR0;
+
+	 // clock scalar to 16MHz
+	 //CLKPR = 0x80;
+	 //CLKPR = 0x01;
 #endif
 }
+
+void lgt8fx8x_clk_src()
+{
+// select clock source
+#if defined(CLOCK_SOURCE)
+    #if CLOCK_SOURCE == 0
+        sysClock(INT_OSC_32K);
+    #elif CLOCK_SOURCE == 1
+        //#warning "INT_OSC_32M"
+        sysClock(INT_OSC_32M);
+    #elif CLOCK_SOURCE == 2
+        sysClock(EXT_OSC_32M);
+    #elif CLOCK_SOURCE == 3
+        sysClock(EXT_OSC_16M);
+    #elif CLOCK_SOURCE == 4
+        sysClock(EXT_OSC_8M);
+    #elif CLOCK_SOURCE == 5
+        sysClock(EXT_OSC_4M);
+    #elif CLOCK_SOURCE == 6
+        sysClock(EXT_OSC_2M);
+    #elif CLOCK_SOURCE == 7
+        sysClock(EXT_OSC_1M);
+    #elif CLOCK_SOURCE == 8
+        sysClock(EXT_OSC_400K);
+    #elif CLOCK_SOURCE == 9
+        sysClock(EXT_OSC_32K);
+    #endif
+#endif
+
+// select clock prescaler
+#if defined(F_CPU)
+    CLKPR = 0x80;
+    #if F_CPU == 32000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must 32MHz"
+        #endif
+    #elif F_CPU == 16000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == 3
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must > 16MHZ"
+        #endif
+    #elif F_CPU == 8000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_4;
+        #elif CLOCK_SOURCE == 3
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == 4
+            CLKPR = SYSCLK_DIV_0;        
+        #else
+            #error "Clock Source Must > 8MHz"
+        #endif
+    #elif F_CPU == 4000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_8;
+        #elif CLOCK_SOURCE == 3
+            CLKPR = SYSCLK_DIV_4;
+        #elif CLOCK_SOURCE == 4
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == 5
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must > 4MHZ"
+        #endif
+    #elif F_CPU == 2000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_16;
+        #elif CLOCK_SOURCE == 3
+            CLKPR = SYSCLK_DIV_8;
+        #elif CLOCK_SOURCE == 4
+            CLKPR = SYSCLK_DIV_4;
+        #elif CLOCK_SOURCE == 5
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == 6
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must > 2MHZ"
+        #endif
+
+    #elif F_CPU == 1000000L
+        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+            CLKPR = SYSCLK_DIV_32;
+        #elif CLOCK_SOURCE == 3
+            CLKPR = SYSCLK_DIV_16;
+        #elif CLOCK_SOURCE == 4
+            CLKPR = SYSCLK_DIV_8;
+        #elif CLOCK_SOURCE == 5
+            CLKPR = SYSCLK_DIV_4;
+        #elif CLOCK_SOURCE == 6
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == 7
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must > 1MHZ"
+        #endif
+    #elif F_CPU == 400000L
+        #if CLOCK_SOURCE == 8
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must 400KHz" 
+        #endif
+    #elif F_CPU == 32000L
+        #if CLOCK_SOURCE == 0 || CLOCK_SOURCE == 9
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must 32KHz"
+        #endif
+    #endif
+#endif
+}
+
 
 int main(void)
 {
 #if defined(__LGT8F__)
-	lgt8fx8x_init(); 
+	lgt8fx8x_init();
+
+#if defined(CLOCK_SOURCE)
+    lgt8fx8x_clk_src();
+#endif
+
 #endif	
 
 	init();

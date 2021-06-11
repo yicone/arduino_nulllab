@@ -315,8 +315,26 @@ void pwmMode(uint8_t pin, uint8_t wmode, uint8_t fmode = PWM_FREQ_FAST, uint8_t 
 #if defined(__LGT8FX8E__) || defined(__LGT8FX8P__)
 #include "fastio_digital.h"
 
-#define	INT_OSC	0
-#define	EXT_OSC	1
+#define	INT_OSC_32K	0
+#define	INT_OSC_32M	1
+#define	EXT_OSC_32M	2
+#define	EXT_OSC_16M	3
+#define	EXT_OSC_8M	4
+#define	EXT_OSC_4M	5
+#define	EXT_OSC_2M	6
+#define	EXT_OSC_1M	7
+#define	EXT_OSC_400K 8
+#define	EXT_OSC_32K 9
+
+#define SYSCLK_DIV_0    0x0
+#define SYSCLK_DIV_2    0x1
+#define SYSCLK_DIV_4    0x2
+#define SYSCLK_DIV_8    0x3
+#define SYSCLK_DIV_16   0x4
+#define SYSCLK_DIV_32   0x5
+#define SYSCLK_DIV_64   0x6
+#define SYSCLK_DIV_128  0x7
+
 void sysClock(uint8_t mode);
 
 // Log(HSP v3.7):
