@@ -26,7 +26,7 @@ fcpu=${fcpux/L/}
 /*
  * Compute the divisor
  */
-BAUD_SETTING=$(( ( ($fcpu + $bps * 4) / (($bps * 8))) - 1 ))
+BAUD_SETTING=$(( ( ($fcpu) / (($bps * 8))) - 1 ))
 // echo baud setting = $BAUD_SETTING
 
 /*

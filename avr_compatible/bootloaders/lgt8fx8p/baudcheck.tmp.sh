@@ -1,10 +1,10 @@
 # 1 "baudcheck.c"
-# 1 "C:\\Users\\Administrator\\Documents\\Arduino\\hardware\\LGT\\avr\\bootloaders\\lgt8fx8p//"
+# 1 "D:\\arduino-1.8.12-windows\\arduino-1.8.12\\hardware\\arduino_nulllab\\avr_compatible\\bootloaders\\lgt8fx8p//"
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "baudcheck.c"
 # 20 "baudcheck.c"
-bpsx=57600
+bpsx=115200
 bps=${bpsx/L/}
 fcpux=16000000L
 fcpu=${fcpux/L/}
@@ -13,7 +13,7 @@ fcpu=${fcpux/L/}
 
 
 
-BAUD_SETTING=$(( ( ($fcpu + $bps * 4) / (($bps * 8))) - 1 ))
+BAUD_SETTING=$(( ( ($fcpu) / (($bps * 8))) - 1 ))
 
 
 

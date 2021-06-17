@@ -89,9 +89,9 @@ GCCROOT = $(TOOLROOT)/avr/bin/
 AVRDUDE_CONF = -C$(TOOLROOT)/avr/etc/avrdude.conf
 
 else
-TOOLROOT =
-GCCROOT =
-AVRDUDE_CONF =
+TOOLROOT = ..\..\..\..\tools
+GCCROOT =  $(TOOLROOT)/avr/bin/
+AVRDUDE_CONF = -C$(TOOLROOT)/avr/etc/avrdude.conf
 endif
 
 STK500 = "C:\Program Files\Atmel\AVR Tools\STK500\Stk500.exe"
@@ -103,7 +103,9 @@ STK500-2 = $(STK500) -d$(MCU_TARGET) -ms -q -lCF -LCF -cUSB -I200kHz -s -wt
 
 
 OBJ        = $(PROGRAM).o
-OPTIMIZE = -Os -fno-inline-small-functions -fno-split-wide-types -mshort-calls
+
+OPTIMIZE = -O2 -fno-inline-small-functions
+#OPTIMIZE = -Os -fno-inline-small-functions -fno-split-wide-types -mshort-calls
 
 DEFS       = 
 LIBS       =
@@ -131,8 +133,8 @@ ifdef BAUD_RATE
 BAUD_RATE_CMD = -DBAUD_RATE=$(BAUD_RATE)
 dummy = FORCE
 else
-#BAUD_RATE_CMD = -DBAUD_RATE=115200
-BAUD_RATE_CMD = -DBAUD_RATE=57600
+BAUD_RATE_CMD = -DBAUD_RATE=115200
+#BAUD_RATE_CMD = -DBAUD_RATE=57600
 #BAUD_RATE_CMD = -DBAUD_RATE=38400
 #BAUD_RATE_CMD = -DBAUD_RATE=19200
 endif
@@ -184,6 +186,8 @@ endif
 COMMON_OPTIONS = $(BAUD_RATE_CMD) $(LED_START_FLASHES_CMD) $(BIGBOOT_CMD)
 COMMON_OPTIONS += $(SOFT_UART_CMD) $(LED_DATA_FLASH_CMD) $(LED_CMD) $(SSCMD)
 COMMON_OPTIONS += $(OSC_CMD)
+
+LGT_OPTIONS += -D__LGT8FX8P__ -D__LGT8F__
 
 #UART is handled separately and only passed for devices with more than one.
 ifdef UART
@@ -334,12 +338,14 @@ atmega8_isp: LFUSE ?= BF
 atmega8_isp: isp
 
 # LGT8F328P
-#
-lgt8f328p: EXT_OSC ?= 0
+
+lgt8f328p: OSC_SOURCE = INT_OSC_32M
+#lgt8f328p: OSC_SOURCE = EXT_OSC_16M
 lgt8f328p: TARGET = lgt8f328p
 lgt8f328p: MCU_TARGET = atmega328p
 lgt8f328p: CFLAGS += $(COMMON_OPTIONS)
-#lgt8f328p: CFLAGS += $(COMMON_OPTIONS) '-DSOFT_UART'
+lgt8f328p: CFLAGS += -DOSC_SOURCE=$(OSC_SOURCE)
+lgt8f328p: CFLAGS += $(LGT_OPTIONS) -D__LGT8FX8P48__
 lgt8f328p: CFLAGS += '-DVIRTUAL_BOOT_PARTITION'
 lgt8f328p: AVR_FREQ ?= 16000000L 
 lgt8f328p: LDSECTIONS = -Wl,--section-start=.bootv=0x0

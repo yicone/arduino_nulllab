@@ -199,6 +199,28 @@
 #define MAKESTR(a) #a
 #define MAKEVER(a, b) MAKESTR(a*256+b)
 
+#define	INT_OSC_32K	0
+#define	INT_OSC_32M	1
+#define	EXT_OSC_32M	2
+#define	EXT_OSC_16M	3
+#define	EXT_OSC_8M	4
+#define	EXT_OSC_4M	5
+#define	EXT_OSC_2M	6
+#define	EXT_OSC_1M	7
+#define	EXT_OSC_400K 8
+#define	EXT_OSC_32K 9
+
+#ifndef NOP
+#define NOP() asm volatile("nop")
+#endif
+
+
+#define OSC_Delay()	do {\
+	NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();\
+	NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();\
+} while(0);
+
+
 #if defined (__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
 // boot_code : jmp to 0x7400 (start of bootloader)
 asm("	.section .bootv\n"
@@ -256,8 +278,8 @@ typedef union {
 #define UART 0
 #endif
 
-#define BAUD_SETTING (( (F_CPU + BAUD_RATE * 4L) / ((BAUD_RATE * 8L))) - 1 )
-#define BAUD_ACTUAL (F_CPU/(8 * ((BAUD_SETTING)+1)))
+#define BAUD_SETTING (( (F_CPU ) / ((BAUD_RATE * 8L))) - 1 )
+#define BAUD_ACTUAL (F_CPU/(8 * ((BAUD_SETTING+1))))
 #define BAUD_ERROR (( 100*(BAUD_RATE - BAUD_ACTUAL) ) / BAUD_RATE)
 
 #if BAUD_ERROR >= 5
@@ -315,8 +337,9 @@ void putch(char);
 uint8_t getch(void);
 static inline void getNch(uint8_t); /* "static inline" is a compiler hint to reduce code size */
 void verifySpace();
-static inline void flash_led(uint8_t);
-uint8_t getLen();
+#if LED_START_FLASHES > 0
+static void flash_led(uint8_t);
+#endif
 static inline void watchdogReset();
 void watchdogConfig(uint8_t x);
 #ifdef SOFT_UART
@@ -452,16 +475,59 @@ int main(void) {
   // Adaboot no-wait mod
   ch = MCUSR;
   MCUSR = 0;
-  if (ch & (_BV(WDRF) | _BV(BORF) | _BV(PORF)))
+	if (ch & (_BV(WDRF) | _BV(BORF) | _BV(PORF)))
+	//if (! (ch &  _BV(EXTRF)))
 	appStart(ch);
 
-  // WDT clock by 32KHz IRC
-  PMCR = 0x80;
-  PMCR = 0x93;
+#if BAUD_RATE == 115200
+	const uint8_t CAL_V=6;
+	if((uint8_t)RCMCAL>=CAL_V)
+	{
+		RCMCAL -= CAL_V;
+	}
+	else
+	{
+		RCMCAL = 0;
+	}
+#endif
 
+#if OSC_SOURCE == EXT_OSC_16M
+
+  // enable ext osc 400~32M crystal
+  ch = (PMCR & 0xf3) | 0x04;
+  PMCR = 0x80;
+  PMCR = ch;
+  
+  // waiting for crystal stable
+  OSC_Delay();
+
+  // switch to external 400~32MHz crystal
+  ch = (PMCR & 0x9F) | 0x20;
+  PMCR = 0x80;
+  PMCR = ch;
+  //OSC_Delay();
+  // disable internal 32M osc
+  // ch = PMCR & 0xf6;
+  // PMCR = 0x80;
+  // PMCR = ch;
   // system clock: 16MHz system clock
   CLKPR = 0x80;
+  CLKPR = 0x00;
+   // WDT clock by 32KHz IRC
+  ch = PMCR | 0x10;
+  PMCR = 0x80;
+  PMCR = ch; 
+#else
+
+   // WDT clock by 32KHz IRC
+  PMCR = 0x80;
+  PMCR = 0x93; 
+
+  //internal system clock: 16MHz system clock
+  CLKPR = 0x80;
   CLKPR = 0x01;
+  
+#endif
 
   // enable 1KB E2PROM (for LGT8F328P)
   ECCR = 0x80;
@@ -479,11 +545,19 @@ int main(void) {
   UCSRC = _BV(URSEL) | _BV(UCSZ1) | _BV(UCSZ0);  // config USART; 8N1
   UBRRL = (uint8_t)( (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 );
 #else
-  //UART_SRA = _BV(U2X0); //Double speed mode USART0
+
+#if BAUD_RATE == 115200
+	UART_SRA = _BV(U2X0); //Double speed mode USART0
+	UART_SRB = _BV(RXEN0) | _BV(TXEN0);
+	//UART_SRC = _BV(UCSZ00) | _BV(UCSZ01);
+	UART_SRL = (uint8_t)( F_CPU / (BAUD_RATE * 8L) - 1 );
+#else
+  //  UART_SRA &= ~(_BV(U2X0));
   UART_SRB = _BV(RXEN0) | _BV(TXEN0);
   UART_SRC = _BV(UCSZ00) | _BV(UCSZ01);
   //UART_SRL = (uint8_t)( F_CPU / (BAUD_RATE * 8L) - 1 );
   UART_SRL = (uint8_t)( F_CPU / (BAUD_RATE * 16L) - 1 );
+#endif
 #endif
 #endif
 
@@ -858,13 +932,13 @@ void watchdogConfig(uint8_t x) {
 }
 
 void appStart(uint8_t rstFlags) {
-  // save the reset flags in the designated register
-  //  This can be saved in a main program by putting code in .init0 (which
-  //  executes before normal c init code) to save R2 to a global variable.
-  __asm__ __volatile__ ("mov r2, %0\n" :: "r" (rstFlags));
+	watchdogConfig(WATCHDOG_OFF);
+	// save the reset flags in the designated register
+	//  This can be saved in a main program by putting code in .init0 (which
+	//  executes before normal c init code) to save R2 to a global variable.
+	__asm__ __volatile__ ("mov r2, %0\n" :: "r" (rstFlags));
 
-  watchdogConfig(WATCHDOG_OFF);
-  __asm__ __volatile__ (
+	__asm__ __volatile__ (
 #ifdef VIRTUAL_BOOT_PARTITION
     // Jump to WDT vector
     "ldi r30,0x0c\n"
