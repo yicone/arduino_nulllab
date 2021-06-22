@@ -17,8 +17,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include <avr/wdt.h>
-//#include <Arduino.h>
+#include <Arduino.h>
 #include <wiring_private.h>
+
+#define OSC_DELAY()	do {\
+	_NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP();\
+	_NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP();\
+} while(0);
 
 // Declared weak in Arduino.h to allow user redefinitions.
 int atexit(void (* /*func*/ )()) { return 0; }
@@ -97,25 +102,42 @@ void sysClock(uint8_t mode)
         PMCR = GPIOR0;
         
         // waiting for crystal stable
-        delay(20);
+        OSC_DELAY();
     
         // switch to external crystal
         GPIOR0 = (PMCR & 0x9f) | 0x60;
         PMCR = 0x80;
         PMCR = GPIOR0;
    } else {
-        // enable external 400~32MHz OSC crystal
-        GPIOR0 = (PMCR & 0xf0) | 0x04;
-        PMCR = 0x80;
-        PMCR = GPIOR0;
-        
-        // waiting for crystal stable
-        delay(20);
-    
-        // switch to external 400~32MHz crystal
-        GPIOR0 = (PMCR & 0x9f) | 0x20;
-        PMCR = 0x80;
-        PMCR = GPIOR0;
+
+	// set to right prescale first
+	CLKPR = 0x80;
+	CLKPR = 0x01;
+
+	asm volatile ("nop");
+	asm volatile ("nop");
+
+	// enable external 400~32MHz OSC crystal
+	GPIOR0 = PMX2 | 0x04;
+	PMX2 = 0x80;
+	PMX2 = GPIOR0;
+
+	GPIOR0 = (PMCR & 0xf3) | 0x04;
+	PMCR = 0x80;
+	PMCR = GPIOR0;
+
+	// waiting for crystal stable
+	OSC_DELAY();
+
+	// switch to external 400~32MHz crystal
+	PMCR = 0x80;
+	PMCR = 0xb7;
+	OSC_DELAY();
+
+	// disable internal 32MHz crystal
+	PMCR = 0x80;
+	PMCR = 0xb6;
+	OSC_DELAY();
     }
 }
 
@@ -361,119 +383,114 @@ void lgt8fx8x_clk_src()
 {
 // select clock source
 #if defined(CLOCK_SOURCE)
-    #if CLOCK_SOURCE == 0
-        sysClock(INT_OSC_32K);
-    #elif CLOCK_SOURCE == 1
-        //#warning "INT_OSC_32M"
-        sysClock(INT_OSC_32M);
-    #elif CLOCK_SOURCE == 2
-        sysClock(EXT_OSC_32M);
-    #elif CLOCK_SOURCE == 3
-        sysClock(EXT_OSC_16M);
-    #elif CLOCK_SOURCE == 4
-        sysClock(EXT_OSC_8M);
-    #elif CLOCK_SOURCE == 5
-        sysClock(EXT_OSC_4M);
-    #elif CLOCK_SOURCE == 6
-        sysClock(EXT_OSC_2M);
-    #elif CLOCK_SOURCE == 7
-        sysClock(EXT_OSC_1M);
-    #elif CLOCK_SOURCE == 8
-        sysClock(EXT_OSC_400K);
-    #elif CLOCK_SOURCE == 9
-        sysClock(EXT_OSC_32K);
-    #endif
+	sysClock(CLOCK_SOURCE);
 #endif
 
 // select clock prescaler
 #if defined(F_CPU)
     CLKPR = 0x80;
     #if F_CPU == 32000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
             CLKPR = SYSCLK_DIV_0;
         #else
             #error "Clock Source Must 32MHz"
         #endif
-    #elif F_CPU == 16000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
-            CLKPR = SYSCLK_DIV_2;
-        #elif CLOCK_SOURCE == 3
+    #elif F_CPU == 24000000L
+		#if CLOCK_SOURCE == EXT_OSC_24M
             CLKPR = SYSCLK_DIV_0;
         #else
-            #error "Clock Source Must > 16MHZ"
+            #error "Clock Source Must 24MHz"
+        #endif
+    #elif F_CPU == 16000000L
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == EXT_OSC_16M
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must 16,32MHZ"
+        #endif
+    #elif F_CPU == 12000000L
+        #if CLOCK_SOURCE == EXT_OSC_24M
+            CLKPR = SYSCLK_DIV_2;
+        #elif CLOCK_SOURCE == EXT_OSC_12M
+            CLKPR = SYSCLK_DIV_0;
+        #else
+            #error "Clock Source Must 12,24MHZ"
         #endif
     #elif F_CPU == 8000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
             CLKPR = SYSCLK_DIV_4;
-        #elif CLOCK_SOURCE == 3
+        #elif CLOCK_SOURCE == EXT_OSC_16M
             CLKPR = SYSCLK_DIV_2;
-        #elif CLOCK_SOURCE == 4
+        #elif CLOCK_SOURCE == EXT_OSC_8M
             CLKPR = SYSCLK_DIV_0;        
         #else
-            #error "Clock Source Must > 8MHz"
+            #error "Clock Source Must 8,16,32MHz"
         #endif
     #elif F_CPU == 4000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
             CLKPR = SYSCLK_DIV_8;
-        #elif CLOCK_SOURCE == 3
+        #elif CLOCK_SOURCE == EXT_OSC_16M
             CLKPR = SYSCLK_DIV_4;
-        #elif CLOCK_SOURCE == 4
+        #elif CLOCK_SOURCE == EXT_OSC_8M
             CLKPR = SYSCLK_DIV_2;
-        #elif CLOCK_SOURCE == 5
+        #elif CLOCK_SOURCE == EXT_OSC_4M
             CLKPR = SYSCLK_DIV_0;
         #else
-            #error "Clock Source Must > 4MHZ"
+            #error "Clock Source Must 4,8,16,32MHZ"
         #endif
     #elif F_CPU == 2000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
             CLKPR = SYSCLK_DIV_16;
-        #elif CLOCK_SOURCE == 3
+        #elif CLOCK_SOURCE == EXT_OSC_16M
             CLKPR = SYSCLK_DIV_8;
-        #elif CLOCK_SOURCE == 4
+        #elif CLOCK_SOURCE == EXT_OSC_8M
             CLKPR = SYSCLK_DIV_4;
-        #elif CLOCK_SOURCE == 5
+        #elif CLOCK_SOURCE == EXT_OSC_4M
             CLKPR = SYSCLK_DIV_2;
-        #elif CLOCK_SOURCE == 6
+        #elif CLOCK_SOURCE == EXT_OSC_2M
             CLKPR = SYSCLK_DIV_0;
         #else
-            #error "Clock Source Must > 2MHZ"
+            #error "Clock Source Must 2,8,16,32MHZ"
         #endif
 
     #elif F_CPU == 1000000L
-        #if CLOCK_SOURCE == 1 || CLOCK_SOURCE == 2
+        #if CLOCK_SOURCE == INT_OSC_32M || CLOCK_SOURCE == EXT_OSC_32M
             CLKPR = SYSCLK_DIV_32;
-        #elif CLOCK_SOURCE == 3
+        #elif CLOCK_SOURCE == EXT_OSC_16M
             CLKPR = SYSCLK_DIV_16;
-        #elif CLOCK_SOURCE == 4
+        #elif CLOCK_SOURCE == EXT_OSC_8M
             CLKPR = SYSCLK_DIV_8;
-        #elif CLOCK_SOURCE == 5
+        #elif CLOCK_SOURCE == EXT_OSC_4M
             CLKPR = SYSCLK_DIV_4;
-        #elif CLOCK_SOURCE == 6
+        #elif CLOCK_SOURCE == EXT_OSC_2M
             CLKPR = SYSCLK_DIV_2;
-        #elif CLOCK_SOURCE == 7
+        #elif CLOCK_SOURCE == EXT_OSC_1M
             CLKPR = SYSCLK_DIV_0;
         #else
-            #error "Clock Source Must > 1MHZ"
+            #error "Clock Source Must 1,2,4,8,16,32MHZ"
         #endif
     #elif F_CPU == 400000L
-        #if CLOCK_SOURCE == 8
+        #if CLOCK_SOURCE == EXT_OSC_400K
             CLKPR = SYSCLK_DIV_0;
         #else
             #error "Clock Source Must 400KHz" 
         #endif
     #elif F_CPU == 32000L
-        #if CLOCK_SOURCE == 0 || CLOCK_SOURCE == 9
+        #if CLOCK_SOURCE == INT_OSC_32K || CLOCK_SOURCE == EXT_OSC_32K
             CLKPR = SYSCLK_DIV_0;
         #else
             #error "Clock Source Must 32KHz"
         #endif
     #endif
+	// CLKPR |= 0x20;  // output cup fre to PB0
 #endif
 }
 
 
 int main(void)
 {
+
 #if defined(__LGT8F__)
 	lgt8fx8x_init();
 
