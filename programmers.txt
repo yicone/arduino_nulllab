@@ -7,7 +7,7 @@ lgtmkii.program.protocol=jtag2isp
 lgtmkii.program.tool=avrdude
 lgtmkii.program.extra_params=-Pusb
 
-arduinoasisp.name=Arduino as ISP(LGT328P)
+arduinoasisp.name=Arduino/Nulllab as ISP(LGT328P)
 arduinoasisp.communication=serial
 arduinoasisp.protocol=stk500v1
 arduinoasisp.speed=19200

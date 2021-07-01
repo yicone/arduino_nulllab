@@ -15,6 +15,7 @@ Mango.name= Nulllab Mango Uno
 Mango.upload.tool=avrdude
 Mango.upload.protocol=arduino
 Mango.upload.maximum_size=29696
+Mango.upload.maximum_data_size=2048
 Mango.upload.speed=115200
 Mango.bootloader.tool=avrdude
 Mango.bootloader.high_fuses=0xff
@@ -25,7 +26,7 @@ Mango.bootloader.file=lgt8fx8p/optiboot_lgt8f328p_115200_int32M.hex
 Mango.bootloader.unlock_bits=0x3f
 Mango.bootloader.lock_bits=0x3f
 Mango.build.mcu=atmega328p
-Mango.build.clock_source=3
+Mango.build.clock_source=4
 Mango.build.f_cpu=16000000L
 Mango.build.core=lgt8f
 Mango.build.variant=lgt8fx8p
@@ -41,6 +42,7 @@ Nano.pid.0=0x7523
 Nano.upload.tool=avrdude
 Nano.upload.protocol=arduino
 Nano.upload.maximum_size=29696
+Nano.upload.maximum_data_size=2048
 Nano.upload.speed=115200
 Nano.bootloader.tool=avrdude
 Nano.bootloader.high_fuses=0xff
@@ -66,6 +68,7 @@ Mini.name= Mini Nano
 Mini.upload.tool=avrdude
 Mini.upload.protocol=arduino
 Mini.upload.maximum_size=29696
+Mini.upload.maximum_data_size=2048
 Mini.upload.speed=57600
 Mini.bootloader.tool=avrdude
 Mini.bootloader.high_fuses=0xff
@@ -115,6 +118,7 @@ Diy.name= DIY Board
 Diy.upload.tool=avrdude
 Diy.upload.protocol=arduino
 Diy.upload.maximum_size=29696
+Diy.upload.maximum_data_size=2048
 Diy.bootloader.tool=avrdude
 Diy.bootloader.high_fuses=0xff
 Diy.bootloader.low_fuses=0xff
@@ -125,15 +129,11 @@ Diy.build.mcu=atmega328p
 Diy.build.core=lgt8f
 Diy.build.board=AVR_LARDU_328E
 
-# Arduino as ISP
- 
-#Diy.menu.arduino_isp.disable=Default (64)
-#Diy.menu.arduino_isp.disable.build.SERIAL_RX_BUFFER_SIZE=64
-#Diy.menu.arduino_isp.enable=[To burn an ISP] SERIAL_RX_BUFFER_SIZE to 250
-#Diy.menu.arduino_isp.enable.build.SERIAL_RX_BUFFER_SIZE=250
+# EEROM size
+
 
 # Clock source
-Diy.menu.clock_source.internal_32M=Internal(32MHz)
+Diy.menu.clock_source.internal_32M=Internal (32MHz)
 Diy.menu.clock_source.internal_32M.build.clock_source=1
 Diy.menu.clock_source.external_32M=External (32MHz)
 Diy.menu.clock_source.external_32M.build.clock_source=2
@@ -155,7 +155,7 @@ Diy.menu.clock_source.external_400K=External (400KHz）
 Diy.menu.clock_source.external_400K.build.clock_source=10
 Diy.menu.clock_source.external_32K=External (32KHz)
 Diy.menu.clock_source.external_32K.build.clock_source=11
-Diy.menu.clock_source.internal_32K=Internal(32KHz)
+Diy.menu.clock_source.internal_32K=Internal (32KHz)
 Diy.menu.clock_source.internal_32K.build.clock_source=0
 
 # Clock frequencies
