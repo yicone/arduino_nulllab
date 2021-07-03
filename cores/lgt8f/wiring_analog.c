@@ -27,22 +27,14 @@
 #include "wiring_private.h"
 #include "pins_arduino.h"
 
-uint8_t analog_resbit = 0;
-uint8_t analog_resdir = 0;
+uint8_t analog_resbit = ADC10BIT;
+//uint8_t analog_resdir = 0;
 uint8_t analog_reference = DEFAULT;
 
 #if defined(__LGT8F__)
 void analogReadResolution(uint8_t res)
 {
-	if(res > 16) res = 16;
-
-	if(res > 12) {
-		analog_resbit = res - 12;
-		analog_resdir = 0;
-	} else {
-		analog_resbit = 12 - res;
-		analog_resdir = 1;
-	}	
+	analog_resbit = res;
 }
 #endif
 
@@ -60,6 +52,7 @@ void analogReference(uint8_t mode)
 	} else {
 		VCAL = VCAL1;
 	}
+	dafa
 	#else
 	// set analog reference for ADC/DAC
 	if(analog_reference == EXTERNAL) {
@@ -79,7 +72,7 @@ void analogReference(uint8_t mode)
 		} else if(analog_reference == INTERNAL4V096) {
 			sbi(ADCSRD, REFS2);
 			VCAL = VCAL3;	// 4.096V
-		} else	{
+		} else {
 			VCAL = VCAL1;	// 1.024V
 		}
 	}
@@ -166,11 +159,13 @@ int __analogRead(uint8_t pin)
 	pVal = 0;
 #endif
 
+#if 0
 	// gain-error correction
 #if defined(__LGT8FX8E__)
 	pVal -= (pVal >> 5);
 #elif defined(__LGT8FX8P__)
 	pVal -= (pVal >> 7);
+#endif
 #endif
 	// standard device from atmel
 	return pVal;
@@ -181,14 +176,10 @@ int analogRead(uint8_t pin)
 	uint16_t adcVal = __analogRead(pin);
 
 #if defined(__LGT8F__)
-	if(analog_resbit == 0)
+	if (analog_resbit == ADC12BIT)
 		return adcVal;
-
-	if(analog_resdir == 1) {
-		return adcVal >> analog_resbit;
-	} else {
-		return adcVal << analog_resbit;
-	}
+	else 
+		return adcVal&0x3FF;
 #else
 	return adcVal;
 #endif	

@@ -141,6 +141,8 @@ void digitalWrite(uint8_t, uint8_t);
 int digitalRead(uint8_t);
 void digitalToggle(uint8_t);
 int analogRead(uint8_t);
+#define ADC10BIT 10
+#define ADC12BIT 12
 void analogReference(uint8_t mode);
 void analogWrite(uint8_t, uint16_t);
 void analogReadResolution(uint8_t);
@@ -338,7 +340,8 @@ void pwmMode(uint8_t pin, uint8_t wmode, uint8_t fmode = PWM_FREQ_FAST, uint8_t 
 #define SYSCLK_DIV_128  0x7
 
 void sysClock(uint8_t mode);
-
+void sysClockPrescale(uint8_t div);
+void sysClockOutput(uint8_t enable);
 // Log(HSP v3.7):
 //  - for system tick based on timer 2
 #if defined(TIMSK) && defined(TOIE2)

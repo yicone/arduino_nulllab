@@ -27,7 +27,7 @@
 
 // Declared weak in Arduino.h to allow user redefinitions.
 int atexit(void (* /*func*/ )()) { return 0; }
-
+uint8_t clock_set = 0;
 // Weak empty variant initialization function.
 // May be redefined by variant files.
 void initVariant() __attribute__((weak));
@@ -139,6 +139,23 @@ void sysClock(uint8_t mode)
 	PMCR = 0xb6;
 	OSC_DELAY();
     }
+	clock_set = 1;
+}
+
+void sysClockPrescale(uint8_t divn)
+{
+	GPIOR0 = 0x80 | (divn & 0xf);
+	CLKPR = 0x80;
+	CLKPR = GPIOR0;
+}
+
+void sysClockOutput(uint8_t enable)
+{
+	if (enable)
+		CLKPR |= 0x20;  // output cup fre to PB0
+	else 
+		CLKPR &= ~(0x20);
+	//CLKPR |= 0x40;  // output cup fre to PE5
 }
 
 #if defined(__LGT8FX8P__) || defined(__LGT8FX8E__)
@@ -492,10 +509,12 @@ int main(void)
 {
 
 #if defined(__LGT8F__)
+
 	lgt8fx8x_init();
 
 #if defined(CLOCK_SOURCE)
-    lgt8fx8x_clk_src();
+	if(clock_set == 0)
+		lgt8fx8x_clk_src();
 #endif
 
 #endif	
