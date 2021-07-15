@@ -120,7 +120,25 @@ void delayMicroseconds(unsigned int us)
 	// calling avrlib's delay_us() function with low values (e.g. 1 or
 	// 2 microseconds) gives delays longer than desired.
 	//delay_us(us);
-#if F_CPU >= 24000000L
+
+#if F_CPU >= 32000000L
+	// for the 32 MHz clock for the aventurous ones, trying to overclock
+
+	// zero delay fix
+
+	if (us < 1) return; //	= 3 cycles, (4 when true)
+
+	// the following loop takes a 1/6 of a microsecond (4 cycles)
+	// per iteration, so execute it six times for each microsecond of
+	// delay requested.
+	us = (us << 3) + 2*us + us/2 + us/8; // ? cycles
+
+	// account for the time taken in the preceeding commands.
+	// we just burned 22 (24) cycles above, remove 5, (5*4=20)
+	// us is at least 6 so we can substract 5
+//		  us -= 5; //=2 cycles
+
+#elif F_CPU >= 24000000L
 	// for the 24 MHz clock for the aventurous ones, trying to overclock
 
 	// zero delay fix
@@ -168,7 +186,7 @@ void delayMicroseconds(unsigned int us)
 	// the following loop takes 1/4 of a microsecond (4 cycles)
 	// per iteration, so execute it four times for each microsecond of
 	// delay requested.
-	us <<= 2; // x4 us, = 4 cycles
+	us = (us << 2) + us + us/4 + us/17  ; // ? cycles
 
 	// account for the time taken in the preceeding commands.
 	// we just burned 19 (21) cycles above, remove 5, (5*4=20)
