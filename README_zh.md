@@ -1,4 +1,4 @@
-**[English](READE.md)**
+**[English](https://github.com/nulllaborg/arduino_nulllab/blob/master/README.md)**
 # Nulllab开发板Arduino IDE支持包 
 
 安装包
@@ -6,7 +6,7 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-https://raw.githubusercontent.com/nulllaborg/arduino_nulllab/master/package_nulllab_boards_index.json
+https://gitee.com/nulllab/nulllab_arduino/raw/master/package_nulllab_boards_index.json
 ![](./doc/pic/option_zh.png)
 
 3、工具->开发板->开发板管理
