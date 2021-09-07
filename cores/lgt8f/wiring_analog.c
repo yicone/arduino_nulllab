@@ -239,21 +239,15 @@ void analogWrite(uint8_t pin, uint16_t val)
 			#if defined(TCCR1A) && defined(COM1A1)
 			case TIMER1A:
 				// connect pwm to pin on timer 1, channel A
-				//OCR1A = val; // set pwm duty
-				// Log(HSP v3.7): compatible mode
-				atomicWriteWord(&OCR1AL, val);
-				// Log(HSP v3.7): END
-				sbi(TCCR1A, COM1A1);
+				OCR1A = val; // set pwm duty
+			    sbi(TCCR1A, COM1A1);
 				break;
 			#endif
 
 			#if defined(TCCR1A) && defined(COM1B1)
 			case TIMER1B:
 				// connect pwm to pin on timer 1, channel B
-				//OCR1B = val; // set pwm duty
-				// Log(HSP v3.7): compatible mode
-				atomicWriteWord(&OCR1BL, val);
-				// Log(HSP v3.7): END
+				OCR1B = val; // set pwm duty
 				sbi(TCCR1A, COM1B1);
 				break;
 			#endif

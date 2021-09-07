@@ -283,31 +283,23 @@ void init()
 	// this is better for motors as it ensures an even waveform
 	// note, however, that fast pwm mode can achieve a frequency of up
 	// 8 MHz (with a 16 MHz clock) at 50% duty cycle
-
 #if defined(TCCR1B) && defined(CS11) && defined(CS10)
 	TCCR1B = 0;
 
-	// Log(HSP v3.7): set timer 1 clock w/o prescaler
-	//  - to compatible with standard android, timer1 will be work in
-	//  - 16bit resoultion mode, we given a proper TOP (=ICR1) to 
-	//  - make it start from a standard status (compatible mode). 
-	//  - but we can also use pwmFrequencey() to change its frequency.
+	// set timer 1 prescale factor to 64
+	sbi(TCCR1B, CS11);
+#if F_CPU >= 8000000L
 	sbi(TCCR1B, CS10);
-
+#endif
 #elif defined(TCCR1) && defined(CS11) && defined(CS10)
+	sbi(TCCR1, CS11);
+#if F_CPU >= 8000000L
 	sbi(TCCR1, CS10);
 #endif
-
-	// put timer 1 PWM mode10 (phase correct pwm mode)
-#if defined(TCCR1A) && defined(WGM10) && defined(WGM12)
-	sbi(TCCR1B, WGM13);
-	sbi(TCCR1A, WGM11);
 #endif
-
-// TOP = (ICR1 = 0x3FFF) @SYSCLK V.S (TOP = 0xFF) @ SYSCLK/64
-#if defined(ICR1) || defined(ICR1H)
-	ICR1H = 0x3f;
-	ICR1L = 0xff;
+	// put timer 1 in 8-bit phase correct pwm mode
+#if defined(TCCR1A) && defined(WGM10)
+	sbi(TCCR1A, WGM10);
 #endif
 
 	// set timer 2 prescale factor to 64
