@@ -86,29 +86,29 @@ Mini.build.variant=lgt8fx8p
 Mini.build.board=AVR_LARDU_328E
 
 #############################
-#### Orang      ####
+#### Orion      ####
 #############################
 
-Orang.name= Nulllab Orang
-Orang.upload.tool=avrdude
-Orang.upload.protocol=arduino
-Orang.upload.maximum_size=29696
-Orang.upload.speed=57600
-Orang.bootloader.tool=avrdude
-Orang.bootloader.high_fuses=0xff
-Orang.bootloader.low_fuses=0xff
-Orang.bootloader.extended_fuses=0x07
-Orang.bootloader.path=lgt8fx8p48
-Orang.bootloader.file=lgt8fx8p48/optiboot_lgt8f328p.hex
-Orang.bootloader.unlock_bits=0x3f
-Orang.bootloader.lock_bits=0x3f
-Orang.build.mcu=atmega328p
-Orang.build.clock_source=2
-Orang.build.f_cpu=32000000L
-#Orang.build.f_cpu=16000000L
-Orang.build.core=lgt8f
-Orang.build.variant=lgt8fx8p48
-Orang.build.board=AVR_LARDU_328E
+Orion.name= Nulllab Orion
+Orion.upload.tool=avrdude
+Orion.upload.protocol=arduino
+Orion.upload.maximum_size=29696
+Orion.upload.speed=57600
+Orion.bootloader.tool=avrdude
+Orion.bootloader.high_fuses=0xff
+Orion.bootloader.low_fuses=0xff
+Orion.bootloader.extended_fuses=0x07
+Orion.bootloader.path=lgt8fx8p48
+Orion.bootloader.file=lgt8fx8p48/optiboot_lgt8f328p.hex
+Orion.bootloader.unlock_bits=0x3f
+Orion.bootloader.lock_bits=0x3f
+Orion.build.mcu=atmega328p
+Orion.build.clock_source=2
+Orion.build.f_cpu=32000000L
+#Orion.build.f_cpu=16000000L
+Orion.build.core=lgt8f
+Orion.build.variant=lgt8fx8p48
+Orion.build.board=AVR_LARDU_328E
 
 #############################
 #### Diy Board     ####
