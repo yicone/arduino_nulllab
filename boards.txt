@@ -4,6 +4,7 @@
 menu.clock_source=Clock Source
 menu.clock=CPU Frequency
 menu.variant=Variant
+menu.eerom_size=EEROM Size
 menu.upload_speed=Upload Speed
 #menu.arduino_isp=Arduino as ISP
 
@@ -14,7 +15,8 @@ menu.upload_speed=Upload Speed
 Mango.name= Nulllab Mango Uno
 Mango.upload.tool=avrdude
 Mango.upload.protocol=arduino
-Mango.upload.maximum_size=29696
+Mango.build.eerom_size=1
+Mango.upload.maximum_size=30720
 Mango.upload.maximum_data_size=2048
 Mango.upload.speed=115200
 Mango.bootloader.tool=avrdude
@@ -37,11 +39,10 @@ Mango.build.board=AVR_LARDU_328E
 #############################
 
 Nano.name= Nulllab Nano
-Nano.vid.0=0x1A86
-Nano.pid.0=0x7523
 Nano.upload.tool=avrdude
 Nano.upload.protocol=arduino
-Nano.upload.maximum_size=29696
+Nano.build.eerom_size=1
+Nano.upload.maximum_size=30720
 Nano.upload.maximum_data_size=2048
 Nano.upload.speed=115200
 Nano.bootloader.tool=avrdude
@@ -59,7 +60,6 @@ Nano.build.core=lgt8f
 Nano.build.variant=lgt8fx8p
 Nano.build.board=AVR_LARDU_328E
 
-
 #############################
 #### Mini Nano      ####
 #############################
@@ -67,7 +67,8 @@ Nano.build.board=AVR_LARDU_328E
 Mini.name= Mini Nano
 Mini.upload.tool=avrdude
 Mini.upload.protocol=arduino
-Mini.upload.maximum_size=29696
+Mini.build.eerom_size=1
+Mini.upload.maximum_size=30720
 Mini.upload.maximum_data_size=2048
 Mini.upload.speed=57600
 Mini.bootloader.tool=avrdude
@@ -88,11 +89,12 @@ Mini.build.board=AVR_LARDU_328E
 #############################
 #### Orion      ####
 #############################
-
 Orion.name= Nulllab Orion
 Orion.upload.tool=avrdude
 Orion.upload.protocol=arduino
-Orion.upload.maximum_size=29696
+Orion.build.eerom_size=1
+Orion.upload.maximum_size=30720
+Orion.upload.maximum_data_size=2048
 Orion.upload.speed=57600
 Orion.bootloader.tool=avrdude
 Orion.bootloader.high_fuses=0xff
@@ -113,11 +115,9 @@ Orion.build.board=AVR_LARDU_328E
 #############################
 #### Diy Board     ####
 #############################
-
 Diy.name= DIY Board
 Diy.upload.tool=avrdude
 Diy.upload.protocol=arduino
-Diy.upload.maximum_size=29696
 Diy.upload.maximum_data_size=2048
 Diy.bootloader.tool=avrdude
 Diy.bootloader.high_fuses=0xff
@@ -130,7 +130,21 @@ Diy.build.core=lgt8f
 Diy.build.board=AVR_LARDU_328E
 
 # EEROM size
-
+Diy.menu.eerom_size.0KB=0KB
+Diy.menu.eerom_size.0KB.build.eerom_size=0
+Diy.menu.eerom_size.0KB.upload.maximum_size=32256
+Diy.menu.eerom_size.1KB=1KB
+Diy.menu.eerom_size.1KB.build.eerom_size=1
+Diy.menu.eerom_size.1KB.upload.maximum_size=30720
+Diy.menu.eerom_size.2KB=2KB
+Diy.menu.eerom_size.2KB.build.eerom_size=2
+Diy.menu.eerom_size.2KB.upload.maximum_size=29696
+Diy.menu.eerom_size.4KB=4KB
+Diy.menu.eerom_size.4KB.build.eerom_size=4
+Diy.menu.eerom_size.4KB.upload.maximum_size=24576
+Diy.menu.eerom_size.8KB=8KB
+Diy.menu.eerom_size.8KB.build.eerom_size=8
+Diy.menu.eerom_size.8KB.upload.maximum_size=16384
 
 # Clock source
 Diy.menu.clock_source.internal_32M=Internal (32MHz)
