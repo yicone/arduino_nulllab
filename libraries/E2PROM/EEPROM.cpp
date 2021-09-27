@@ -1,34 +1,37 @@
-/*
-  EEPROM.cpp - EEPROM library
-  Copyright (c) 2006 David A. Mellis.  All right reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
-/******************************************************************************
- * Includes
- ******************************************************************************/
 #include "Arduino.h"
 #include "EEPROM.h"
 
-uint8_t eerom_read(uint16_t address)
+int eeprom_size(bool theoretical)
 {
-    address += 720;  // bootloard bug will fix next time
-    EEARL = address & 0xff;
-    EEARH = address >> 8;
+    if ( ECCR & 0x40 ) // EEPROM emulation enabled ?
+    {
+        return theoretical ?
+            (1024 << (ECCR & 0x3)): // thoerical size of the emulated EEPROM (see notes above)
+            (EEROM_1KB_PAGE_FREE_SIZE << (ECCR & 0x3)); // actual number of bytes available to the user (see notes above)
+    }
+    return 0;
+}
 
+uint16_t eeprom_continuous_address(uint16_t address)
+{
+    // we recalculate the address so that we automatically skip 
+    // every reserved last cell of every 1KB page (see notes above)
+    if ( address >= EEROM_1KB_PAGE_FREE_SIZE )
+    {
+        address = (1024 * (address / EEROM_1KB_PAGE_FREE_SIZE)) // selects the approriate 1KB page 
+            + (address % EEROM_1KB_PAGE_FREE_SIZE); // selects the approriate byte on this 1KB page
+    }
+    return address;
+}
+
+uint8_t eeprom_read_byte(uint16_t address)
+{
+    address = eeprom_continuous_address(address);
+    if (address >= (uint16_t)eeprom_size(false)) return 0;
+
+    EEARL = address & 0xff;
+    EEARH = (address >> 8); 
+     
     EECR |= (1 << EERE);
     __asm__ __volatile__ ("nop" ::);
     __asm__ __volatile__ ("nop" ::);
@@ -36,50 +39,51 @@ uint8_t eerom_read(uint16_t address)
     return EEDR;
 }
 
-void eerom_write(uint16_t address, uint8_t value)
+void eeprom_write_byte(uint16_t address, uint8_t value)
 {
+    address = eeprom_continuous_address(address);
+    if (address >= (uint16_t)eeprom_size(false)) return;
+
     uint8_t	__bk_sreg = SREG;
-    address += 720;  // bootloard bug will fix next time
     // set address & data
     EEARL = address & 0xff;
-    EEARH = address >> 8;
+    EEARH = (address >> 8);
     EEDR = value;
-
     cli();
     EECR = 0x04;
     EECR = 0x02;
     SREG = __bk_sreg;
 }
 
-void EEPROMClass::read_block(uint8_t *pbuf, uint16_t address, uint8_t len)
+#if defined(__LGT8FX8P__) 
+void lgt_eeprom_read_block( uint8_t *pbuf, uint16_t address, uint16_t len)
 {
-    uint8_t i;
+    uint16_t i;
+
+    uint8_t *p = pbuf;
+
+    for (i = 0; i < len; i++) {
+        *p++ = eeprom_read_byte(address+i);
+    }
+}
+
+void lgt_eeprom_write_block( uint8_t *pbuf, uint16_t address, uint16_t len)
+{
+    uint16_t i;
 
     uint8_t *p = pbuf;
 
     for(i = 0; i < len; i++) {
-        *p++ = eerom_read(address+i);
+        eeprom_write_byte( address+i, *p++);
     }
 }
 
-void EEPROMClass::write_block(uint8_t *pbuf, uint16_t address, uint8_t len)
-{
-    uint8_t i;
-
-    uint8_t *p = pbuf;
-
-    for(i = 0; i < len; i++) {
-        eerom_write(address+i, *p++);
-    }
-}
-
-#if defined(__LGT8FX8P__)
-uint32_t EEPROMClass::read32(uint16_t address)
+uint32_t eeprom_read32(uint16_t address)
 {
     uint32_t dwTmp;
 
     EEARL = address & 0xff;
-    EEARH = (address >> 8) & 0x1;
+    EEARH = (address >> 8);
 
     EECR |= (1 << EERE);
 
@@ -95,7 +99,7 @@ uint32_t EEPROMClass::read32(uint16_t address)
     return dwTmp;
 }
 
-void EEPROMClass::write32(uint16_t address, uint32_t value)
+void eeprom_write32(uint16_t address, uint32_t value)
 {
     uint8_t __bk_sreg = SREG;
 
@@ -115,33 +119,35 @@ void EEPROMClass::write32(uint16_t address, uint32_t value)
     cli();
     EECR = 0x44;
     EECR = 0x42;
-    
+
     SREG = __bk_sreg;
 }
 
 // ----------------------------------------------------------------------
 // public: write bundle of data to E2PROM with SWM mode enable
 // ----------------------------------------------------------------------
-void EEPROMClass::write_swm(uint16_t address, uint32_t *pData, uint8_t length)
+void eeprom_write_swm(uint16_t address, uint32_t *pData, uint16_t length)
 {
-    uint8_t i;
+    uint16_t i;
     uint8_t __bk_sreg;
 
-    e2pReset();
-    e2pSWMON();
+    eeprom_reset();
+    eeprom_SWM_ON();
 
     EEARH = address >> 8;
     EEARL = address;
 
-    for(i = 0; i < length; i++) {
+    for( i = 0; i < length; i++ ) 
+    {
+        if( i == (length - 1) )  // the last word
+        {
+            eeprom_SWM_OFF();
+        }
 
-        E2PD0 = (uint8_t)pData[i];
+        E2PD0 = (uint8_t) pData[i];
         E2PD1 = (uint8_t)(pData[i] >> 8);
         E2PD2 = (uint8_t)(pData[i] >> 16);
         E2PD3 = (uint8_t)(pData[i] >> 24);
-
-        if(i == (length - 1)) // the last word
-            e2pSWMOFF();
 
         __bk_sreg = SREG;
         cli();
@@ -155,27 +161,33 @@ void EEPROMClass::write_swm(uint16_t address, uint32_t *pData, uint8_t length)
 // ----------------------------------------------------------------------
 // public: read bundle of data to E2PROM with SWM mode enable
 // ----------------------------------------------------------------------
-void EEPROMClass::read_swm(uint16_t address, uint32_t *pData, uint8_t length)
+void eeprom_read_swm(uint16_t address, uint32_t *pData, uint16_t length)
 {
-    uint8_t i;
-    e2pReset();
-    e2pSWMON();
+    uint16_t i;
+
+    eeprom_reset();
+    eeprom_SWM_ON();
+
     EEARH = address >> 8;
     EEARL = address;
 
-    for(i = 0; i < length; i++) {
+    for(i = 0; i < length; i++) 
+    {
         if(i == (length - 1)) // the last word
-            e2pSWMOFF();
+        {
+            eeprom_SWM_OFF();
+        }
 
         EECR |= (1 << EERE);
         
         __asm__ __volatile__ ("nop" ::);
         __asm__ __volatile__ ("nop" ::);
 
-        pData[i] = (uint32_t)E2PD0;
+        pData[i]  =  (uint32_t)E2PD0;
         pData[i] |= ((uint32_t)E2PD1 << 8);
         pData[i] |= ((uint32_t)E2PD2 << 16);
         pData[i] |= ((uint32_t)E2PD3 << 24);
     }
 }
 #endif
+

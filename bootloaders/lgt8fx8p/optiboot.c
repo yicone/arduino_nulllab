@@ -199,28 +199,6 @@
 #define MAKESTR(a) #a
 #define MAKEVER(a, b) MAKESTR(a*256+b)
 
-#define	INT_OSC_32K	0
-#define	INT_OSC_32M	1
-#define	EXT_OSC_32M	2
-#define	EXT_OSC_16M	3
-#define	EXT_OSC_8M	4
-#define	EXT_OSC_4M	5
-#define	EXT_OSC_2M	6
-#define	EXT_OSC_1M	7
-#define	EXT_OSC_400K 8
-#define	EXT_OSC_32K 9
-
-#ifndef NOP
-#define NOP() asm volatile("nop")
-#endif
-
-
-#define OSC_Delay()	do {\
-	NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();\
-	NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP();\
-} while(0);
-
-
 #if defined (__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
 // boot_code : jmp to 0x7400 (start of bootloader)
 asm("	.section .bootv\n"
@@ -491,34 +469,6 @@ int main(void) {
 	}
 #endif
 
-#if OSC_SOURCE == EXT_OSC_16M
-
-  // enable ext osc 400~32M crystal
-  ch = (PMCR & 0xf3) | 0x04;
-  PMCR = 0x80;
-  PMCR = ch;
-  
-  // waiting for crystal stable
-  OSC_Delay();
-
-  // switch to external 400~32MHz crystal
-  ch = (PMCR & 0x9F) | 0x20;
-  PMCR = 0x80;
-  PMCR = ch;
-  //OSC_Delay();
-  // disable internal 32M osc
-  // ch = PMCR & 0xf6;
-  // PMCR = 0x80;
-  // PMCR = ch;
-  // system clock: 16MHz system clock
-  CLKPR = 0x80;
-  CLKPR = 0x00;
-   // WDT clock by 32KHz IRC
-  ch = PMCR | 0x10;
-  PMCR = 0x80;
-  PMCR = ch; 
-#else
-
    // WDT clock by 32KHz IRC
   PMCR = 0x80;
   PMCR = 0x93; 
@@ -527,7 +477,6 @@ int main(void) {
   CLKPR = 0x80;
   CLKPR = 0x01;
   
-#endif
 
   // enable 1KB E2PROM (for LGT8F328P)
   ECCR = 0x80;
@@ -660,7 +609,7 @@ int main(void) {
       	EECR = 0x94;
       	EECR = 0x92;
       	__asm__ __volatile__ ("nop" ::); 
-	__asm__ __volatile__ ("nop" ::);      
+	    __asm__ __volatile__ ("nop" ::);      
       }
 
       // Read command terminator, start reply

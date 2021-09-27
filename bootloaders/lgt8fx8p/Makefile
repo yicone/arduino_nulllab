@@ -89,9 +89,9 @@ GCCROOT = $(TOOLROOT)/avr/bin/
 AVRDUDE_CONF = -C$(TOOLROOT)/avr/etc/avrdude.conf
 
 else
-TOOLROOT = ..\..\..\..\tools
+TOOLROOT = ../../../tools
 GCCROOT =  $(TOOLROOT)/avr/bin/
-AVRDUDE_CONF = -C$(TOOLROOT)/avr/etc/avrdude.conf
+#AVRDUDE_CONF = -C$(TOOLROOT)/avr/etc/avrdude.conf
 endif
 
 STK500 = "C:\Program Files\Atmel\AVR Tools\STK500\Stk500.exe"
@@ -104,8 +104,7 @@ STK500-2 = $(STK500) -d$(MCU_TARGET) -ms -q -lCF -LCF -cUSB -I200kHz -s -wt
 
 OBJ        = $(PROGRAM).o
 
-OPTIMIZE = -O2 -fno-inline-small-functions
-#OPTIMIZE = -Os -fno-inline-small-functions -fno-split-wide-types -mshort-calls
+OPTIMIZE = -Os -fno-inline-small-functions -fno-split-wide-types
 
 DEFS       = 
 LIBS       =

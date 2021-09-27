@@ -1,6 +1,14 @@
 /*
   EEPROM.h - EEPROM library
-  Copyright (c) 2006 David A. Mellis.  All right reserved.
+  Original Copyright (c) 2006 David A. Mellis.  All right reserved.
+  New version by Christopher Andrews 2015.
+  Modifications from https://github.com/LGTMCU/Larduino_HSP
+  New Modifications 20201106 by https://github.com/SuperUserNameMan/ :
+	- add support for standard Arduino EEPROM API
+	- add C-like lgt_eeprom_xxxx() API
+	- put everything into a single EEPROM.h header file
+	- old projects can keep using the original LGT EEPROM API by defining USE_LGT_EEPROM_API
+	- add comments documenting how EEPROM emulation works with LGT8F328p
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -21,37 +29,48 @@
 #define EEPROM_h
 
 #include <inttypes.h>
+#include <Arduino.h>
 
-#ifndef EEROM_SIZE
-#define EEROM_SIZE 1
-#endif
+#define	eeprom_SWM_ON()   do { ECCR = 0x80; ECCR |= 0x10; } while(0);
+#define	eeprom_SWM_OFF()  do { ECCR = 0x80; ECCR &= 0xEF; } while(0);
+#define	eeprom_reset()    do { ECCR |= 0x20; } while(0)
 
-#define	e2pReset()	do { ECCR |= 0x20; } while(0)
-#define	e2pSWMON()	do { ECCR = 0x80; ECCR |= 0x10; } while(0);
-#define	e2pSWMOFF()	do { ECCR = 0x80; ECCR &= 0xEF; } while(0);
-uint8_t eerom_read(uint16_t address);
-void eerom_write(uint16_t address, uint8_t value);
+#define EEROM_1KB_PAGE_FREE_SIZE (uint16_t)1020
 
-/***
-    EERef class.
-    
-    This object references an EEPROM cell.
-    Its purpose is to mimic a typical byte of RAM, however its storage is the EEPROM.
-    This class has an overhead of two bytes, similar to storing a pointer to an EEPROM cell.
-***/
+void eeprom_init(uint8_t _eerom_size = 1);
+int eeprom_size(bool theoretical = false);
+uint16_t eeprom_continuous_address(uint16_t address);
+uint8_t eeprom_read_byte(uint16_t address);
+void eeprom_write_byte(uint16_t address, uint8_t value);
 
-struct EERef{
+void eeprom_read_block(uint8_t *pbuf, uint16_t address, uint16_t len);
+void eeprom_write_block(uint8_t *pbuf, uint16_t address, uint16_t len);
+
+// ----------------------------------------------------------------------
+// read/write native 32 bits data from/to E2PROM
+// ----------------------------------------------------------------------
+uint32_t eeprom_read32(uint16_t address );
+void eeprom_write32(uint16_t address, uint32_t value);
+
+// ----------------------------------------------------------------------
+// read/write bundle of data from/to E2PROM with SWM mode enable
+// ----------------------------------------------------------------------
+void eeprom_write_swm(uint16_t address, uint32_t *pData, uint16_t length);
+void eeprom_read_swm(uint16_t address, uint32_t *pData, uint16_t length);
+
+struct EERef
+{
 
     EERef( const int index )
         : index( index )                 {}
-    
+
     //Access/read members.
-    uint8_t operator*() const            { return eerom_read( (uint8_t*) index ); }
+    uint8_t operator*() const            { return eeprom_read_byte(index); }
     operator uint8_t() const             { return **this; }
-    
+
     //Assignment/write members.
     EERef &operator=( const EERef &ref ) { return *this = *ref; }
-    EERef &operator=( uint8_t in )       { return eerom_write( (uint8_t*) index, in ), *this;  }
+    EERef &operator=( uint8_t in )       { return eeprom_write_byte( index, in), *this;  }
     EERef &operator +=( uint8_t in )     { return *this = **this + in; }
     EERef &operator -=( uint8_t in )     { return *this = **this - in; }
     EERef &operator *=( uint8_t in )     { return *this = **this * in; }
@@ -62,47 +81,49 @@ struct EERef{
     EERef &operator |=( uint8_t in )     { return *this = **this | in; }
     EERef &operator <<=( uint8_t in )    { return *this = **this << in; }
     EERef &operator >>=( uint8_t in )    { return *this = **this >> in; }
-    
+
     EERef &update( uint8_t in )          { return  in != *this ? *this = in : *this; }
-    
+
     /** Prefix increment/decrement **/
     EERef& operator++()                  { return *this += 1; }
     EERef& operator--()                  { return *this -= 1; }
-    
+
     /** Postfix increment/decrement **/
-    uint8_t operator++ (int){ 
+    uint8_t operator++ (int)
+    { 
         uint8_t ret = **this;
         return ++(*this), ret;
     }
 
-    uint8_t operator-- (int){ 
+    uint8_t operator-- (int)
+    { 
         uint8_t ret = **this;
         return --(*this), ret;
     }
-    
+
     int index; //Index of current EEPROM cell.
 };
 
 /***
-    EEPtr class.
-    
-    This object is a bidirectional pointer to EEPROM cells represented by EERef objects.
-    Just like a normal pointer type, this can be dereferenced and repositioned using 
-    increment/decrement operators.
+EEPtr class.
+
+This object is a bidirectional pointer to EEPROM cells represented by EERef objects.
+Just like a normal pointer type, this can be dereferenced and repositioned using 
+increment/decrement operators.
 ***/
 
-struct EEPtr{
-
+struct EEPtr
+{
     EEPtr( const int index )
         : index( index )                {}
         
     operator int() const                { return index; }
     EEPtr &operator=( int in )          { return index = in, *this; }
-    
+
     //Iterator functionality.
     bool operator!=( const EEPtr &ptr ) { return index != ptr.index; }
     EERef operator*()                   { return index; }
-    
+
     /** Prefix & Postfix increment/decrement **/
     EEPtr& operator++()                 { return ++index, *this; }
     EEPtr& operator--()                 { return --index, *this; }
@@ -110,18 +131,18 @@ struct EEPtr{
     EEPtr operator-- (int)              { return index--; }
 
     int index; //Index of current EEPROM cell.
-};
+    };
 
 /***
-    EEPROMClass class.
-    
-    This object represents the entire EEPROM space.
-    It wraps the functionality of EEPtr and EERef into a basic interface.
-    This class is also 100% backwards compatible with earlier Arduino core releases.
+	EEPROMClass class.
+	
+	This object represents the entire EEPROM space.
+	It wraps the functionality of EEPtr and EERef into a basic interface.
+	This class is also 100% backwards compatible with earlier Arduino core releases.
 ***/
 
-struct EEPROMClass{
-
+struct EEPROMClass
+{
     EEPROMClass() {
 #if EEROM_SIZE == 0
         // disable E2PROM
@@ -150,28 +171,23 @@ struct EEPROMClass{
     uint8_t read( int idx )              { return EERef( idx ); }
     void write( int idx, uint8_t val )   { (EERef( idx )) = val; }
     void update( int idx, uint8_t val )  { EERef( idx ).update( val ); }
-    int size(  ) { return length(); }
 
     //STL and C++11 iteration capability.
     EEPtr begin()                        { return 0x00; }
     EEPtr end()                          { return length(); } //Standards requires this to be the item after the last valid entry. The returned pointer is invalid.
-    uint16_t length()                    { return (EEROM_SIZE*1024 - 720); } // bootloard bug will fix next time
-    void read_block(uint8_t *, uint16_t, uint8_t);
-    void write_block(uint8_t *, uint16_t, uint8_t);
-    uint32_t read32(uint16_t);
-    void write32(uint16_t, uint32_t);
-    void write_swm(uint16_t, uint32_t *, uint8_t);
-    void read_swm(uint16_t, uint32_t *, uint8_t);
+    uint16_t length()                    { return (eeprom_size(false) - 720); }
 
     //Functionality to 'get' and 'put' objects to and from EEPROM.
-    template< typename T > T &get( int idx, T &t ){
+    template< typename T > T &get( int idx, T &t )
+    {
         EEPtr e = idx;
         uint8_t *ptr = (uint8_t*) &t;
         for( int count = sizeof(T) ; count ; --count, ++e )  *ptr++ = *e;
         return t;
     }
 
-    template< typename T > const T &put( int idx, const T &t ){
+    template< typename T > const T &put( int idx, const T &t )
+    {
         EEPtr e = idx;
         const uint8_t *ptr = (const uint8_t*) &t;
         for( int count = sizeof(T) ; count ; --count, ++e )  (*e).update( *ptr++ );
@@ -182,3 +198,4 @@ struct EEPROMClass{
 static EEPROMClass EEPROM;
 
 #endif
+
