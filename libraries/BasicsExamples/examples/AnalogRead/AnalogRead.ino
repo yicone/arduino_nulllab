@@ -14,7 +14,7 @@ uint16_t value;
 void setup() {
   // put your setup code here, to run once:
   analogReadResolution(ADC12BIT);  // ADC10BIT default is 10bit 
-  analogReference(INTERNAL2V48);   // DEFAULT EXTERNAL INTERNAL1V024 INTERNAL2V048 INTERNAL4V096
+  analogReference(INTERNAL2V048);   // DEFAULT EXTERNAL INTERNAL1V024 INTERNAL2V048 INTERNAL4V096
   Serial.begin(9600);
 }
 
