@@ -8,12 +8,10 @@
 ### 使用说明
  1.制作一个ISP：
 
-   1.将 Lgt328P_ISP.ino 烧录到 arduino 板中。
-
-   2.将arduino板的`RESET`引脚和`VCC`引脚短接以避免引导加载程序执行。
-
-   3.arduino板现在变成了 LGTISP！ 连接`SWD`和`SWC`。 `RST` 可以连接也可以不连接。
-   ​     
+- 1.将 Lgt328P_ISP.ino 烧录到 arduino 板中。
+- 2.将arduino板的`RESET`引脚和`VCC`引脚短接以避免引导加载程序执行。
+- 3.arduino板现在变成了 LGTISP！ 连接`SWD`和`SWC`。 `RST` 可以连接也可以不连接。
+    
 
 | Arduino Uno |      | LGT  |
 | :---------: | :--: | :--: |
