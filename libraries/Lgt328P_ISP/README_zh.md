@@ -52,10 +52,10 @@
 
  2.将bootloader烧录到 LGT8Fx8P：
 
-    1. 安装 [Arduino IDE for lgt328p](https://github.com/nulllaborg/arduino_nulllab).
-       2. 选择开发板：工具->开发板->开发板管理->Nulllab AVR Compatible Boards->Nulllab Nano
-       3. 选择烧录器：工具->编程器->Arduino/Nulllab as ISP(LGT328P)
-       4. .点击烧录引导程序
+1. 安装 [Arduino IDE for lgt328p](https://github.com/nulllaborg/arduino_nulllab). 
+2. 选择开发板：工具->开发板->开发板管理->Nulllab AVR Compatible Boards->Nulllab Nano
+3. 选择烧录器：工具->编程器->Arduino/Nulllab as ISP(LGT328P）
+4. 点击烧录引导程序
 
 ## 三、LGT-ISP 专用bootloard工具烧录
 
