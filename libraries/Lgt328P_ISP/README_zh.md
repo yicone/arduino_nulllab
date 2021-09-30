@@ -1,4 +1,5 @@
 **[English](https://github.com/nulllaborg/arduino_nulllab/libraries/Lgt328P_ISP/README.md)**
+
 # 前言
 这是 LGT8Fx8P ISP 下载协议的实现。 您可以制作 arduino 板或 nulllab 板（基于 lgt328p）作为 ISP 来编程 LGT8Fx8P，或者直接使用ISP工具烧录。
 
@@ -9,11 +10,14 @@
     1.将 Lgt328P_ISP.ino 烧录到 arduino 板中。
     2.将arduino板的`RESET`引脚和`VCC`引脚短接以避免引导加载程序执行。
     3.arduino板现在变成了 LGTISP！ 连接`SWD`和`SWC`。 `RST` 可以连接也可以不连接。
-       | Arduino Uno|| LGT |
-       |:-:|:-:|:-:|
-       | D13 | -> | SWC |
-       | D12 | -> | SWD |
-       | D10 | -> | RST |
+     
+
+| Arduino Uno |      | LGT  |
+| :---------: | :--: | :--: |
+|     D13     |  ->  | SWC  |
+|     D12     |  ->  | SWD  |
+|     D10     |  ->  | RST  |
+
  ![](./Arduino_ISP.png)
 
 2.将bootloader烧录到 LGT8Fx8P：
@@ -29,11 +33,14 @@
     1.将 Lgt328P_ISP.ino 烧录到 Lgt-nano 板中。
     2.将 Lgt-nano 板的`RESET`引脚和`VCC`引脚短接以避免引导加载程序执行。
     3.Lgt-nano 板现在变成了 LGTISP！ 连接`SWD`和`SWC`。 `RST` 可以连接也可以不连接。
-       | Nano/ Nulllab boards|| LGT |
-       |:-:|:-:|:-:|
-       | D13 | -> | SWC |
-       | D12 | -> | SWD |
-       | D10 | -> | RST |
+      
+
+| Nano boards |      | LGT  |
+| :---------: | :--: | :--: |
+|     D13     |  ->  | SWC  |
+|     D12     |  ->  | SWD  |
+|     D10     |  ->  | RST  |
+
  ![](./Lgt-Nano_ISP.png)
 
  2.将bootloader烧录到 LGT8Fx8P：
