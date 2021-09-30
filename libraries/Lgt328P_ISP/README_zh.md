@@ -9,11 +9,11 @@
 ### 使用说明
 
 1、将Arduino Uno制作成ISP
-- 1.打开**Lgt328P_ISP.ino](https://github.com/nullla
-borg/arduino_nulllab/tree/master/libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
+- 1.打开**[Lgt328P_ISP.ino](./libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
 - 2.工具->开发板->开发板管理->Arduino AVR Boards->Arduino Uno然后上传程序到Arduino Uno主板中
 - 3.按如下图接线
-| Arduino Uno |      | Nulllab-Nano(LGT8F328P)  |
+
+| Arduino Uno |      |Nulllab-Nano(LGT8F328P)|
 | :---------: | :--: | :--: |
 |     D13     |  ->  | SWC  |
 |     D12     |  ->  | SWD  |
@@ -33,17 +33,17 @@ borg/arduino_nulllab/tree/master/libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用
 ### 使用说明
  1、Nulllab-Nano制作成ISP：
 
-- 1.打开**Lgt328P_ISP.ino](https://github.com/nullla
-borg/arduino_nulllab/tree/master/libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
-- 2.选择开发板：工具->开发板->开发板管理->Nulllab AVR Compatible Boards->Nulllab Nano    
+- 1.打开打开**[Lgt328P_ISP.ino](./libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
+- 2.选择开发板：工具->开发板->开发板管理->Nulllab AVR Compatible Boards->Nulllab Nano
 - 3.按如下图接线
+
 | Nullab-Nano boards |      | (Nullab-Nano)LGT8F328P  |
 | :---------: | :--: | :--: |
 |     D13     |  ->  | SWC  |
 |     D12     |  ->  | SWD  |
 |     D10     |  ->  | RST  |
 
- ![](./Lgt-Nano_ISP.png)
+![](./Lgt-Nano_ISP.png)
 
  2、将bootloader烧录到 LGT8Fx8P：
 
