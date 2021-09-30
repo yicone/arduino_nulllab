@@ -1,4 +1,4 @@
-**[English](https://github.com/nulllaborg/arduino_nulllab/libraries/Lgt328P_ISP/README.md)**
+**[English](README.md)**
 
 # 前言
 这是 LGT8Fx8P ISP 下载协议的实现。 您可以制作 arduino 板或 nulllab 板（基于 lgt328p）作为 ISP 来编程 LGT8Fx8P，或者直接使用ISP工具烧录。
