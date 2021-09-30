@@ -109,10 +109,10 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 	
 	DIY模式可以
 
-### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README.md)
+### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README_zh.md)
 
 基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P系列烧录bootloard的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloard的，他们的接线，烧录方法完全一致。
 
-你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](libraries\Lgt328P_ISP\Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README.md)
+你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](libraries\Lgt328P_ISP\Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
 
 ![](./doc/pic/ISP.png)
