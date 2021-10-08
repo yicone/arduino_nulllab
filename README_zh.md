@@ -53,9 +53,10 @@ https://gitee.com/nulllab/nulllab_arduino/raw/master/package_nulllab_boards_inde
 
 2、安装好MagicBlock，并且打开MagicBlock
 
-3、点击MagicBlock左下角的产品选择按钮，主板选择Nano Pro；点击返回，即可以图形化编程。如下图
+3、点击MagicBlock左下角的产品选择按钮，主板选择Nano Pro；
 ![](./doc/pic/MagicBlock_select_product.png.png)
 
+点击返回，即可以图形化编程。如下图
 ![](./doc/pic/magicBlock_updoad.png)
 
 ## 开发板
