@@ -1,3 +1,4 @@
+**[中文](README_zh.md)**
 # Nulllab & Arduino as ISP
 LGT8Fx8P serials chip ISP download protocol implementation
 
