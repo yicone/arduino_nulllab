@@ -45,10 +45,20 @@
 ![](./doc/pic/board_chioce.png)
 
 ## Mixly支持包
+1、下载支持主板的[Mixly安装包](http://www.emakefun.com/uploads/software/Mixly_WIN.zip)
 
-
+2、打开Mixly，按照下面提示即可以上传程序
+![](./doc/pic/mixly_select_board.png)
 ## Magicblock（基于scratch3.0）图像化软件支持 
+1、[下载MagicBlock](http://www.emakefun.com/uploads/software/MagicBlockSetup.exe)
 
+2、安装好MagicBlock，并且打开MagicBlock
+
+3、点击MagicBlock左下角的产品选择按钮，主板选择Nano Pro；
+![](./doc/pic/MagicBlock_select_product.png)
+
+点击返回，即可以图形化编程。如下图
+![](./doc/pic/magicBlock_updoad.png)
 
 ## 开发板
 
