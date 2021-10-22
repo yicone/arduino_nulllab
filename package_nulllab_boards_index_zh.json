@@ -3,7 +3,7 @@
     {
       "name": "nulllab avr compatible boards",
       "maintainer": "nulllab.org",
-      "websiteURL": "https://github.com/nulllaborg/arduino_nulllab",
+      "websiteURL": "https://gitee.com/nulllab/nulllab_arduino",
       "email": "nulljun@nulllab.cn",
       "help": {
         "online": "www.nulllab.org"
@@ -14,10 +14,10 @@
           "architecture": "avr",
           "version": "2.0.0",
           "category": "lgt8fx",
-          "url": "https://github.com/nulllaborg/arduino_nulllab/archive/master.zip",
+          "url": "https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/archive/master.zip",
           "archiveFileName": "master.zip",
           "help": {
-            "online": "https://github.com/nulllaborg/arduino_nulllab/issues"
+            "online": "https://gitee.com/nulllab/nulllab_arduino/issues"
           },
           "boards": [
             {"name": "Nulllab Mini-Nano"},
@@ -32,12 +32,12 @@
           "architecture": "avr",
           "version": "1.0.0",
           "category": "lgt8fx",
-          "url": "https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.0/nulllab_arduino-1.0.0.zip",
+          "url": "https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.0/nulllab_arduino-1.0.0.zip",
           "archiveFileName": "nulllab_arduino-1.0.0.zip",
           "checksum": "SHA-256:e1a7461f13c3da8871bdb181468e80c6a53c4160162e1cbb7948bdfd25cd790a",
-          "size": "11111",
+          "size": "3605697",
           "help": {
-            "online": "https://github.com/nulllaborg/arduino_nulllab/issues"
+            "online": "https://gitee.com/nulllab/nulllab_arduino/issues"
           },
           "boards": [
             {"name": "Nulllab Mini-Nano"},

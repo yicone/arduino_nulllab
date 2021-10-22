@@ -9,7 +9,8 @@
 ### 使用说明
 
 1、将Arduino Uno制作成ISP
-- 1.打开**[Lgt328P_ISP.ino](./libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
+
+- 1.打开**[Lgt328P_ISP.ino](./Lgt328P_ISP.ino)** 应用程序(主板选择Nulllab Nano然后通过IDE里面 *文件->示例->Lgt328P_ISP*)
 - 2.工具->开发板->开发板管理->Arduino AVR Boards->Arduino Uno然后上传程序到Arduino Uno主板中
 - 3.按如下图接线
 
@@ -33,7 +34,7 @@
 ### 使用说明
  1、Nulllab-Nano制作成ISP：
 
-- 1.打开打开**[Lgt328P_ISP.ino](./libraries/Lgt328P_ISP/Lgt328P_ISP.ino)** 应用程序
+- 1.打开打开**[Lgt328P_ISP.ino](./Lgt328P_ISP.ino)** 应用程序 (可以通过IDE里面*文件-->示例-->Lgt328P_ISP*)
 - 2.选择开发板：工具->开发板->开发板管理->Nulllab AVR Compatible Boards->Nulllab Nano
 - 3.按如下图接线
 

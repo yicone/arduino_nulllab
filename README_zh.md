@@ -34,7 +34,8 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-https://gitee.com/nulllab/nulllab_arduino/raw/master/package_nulllab_boards_index.json
+> https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index.json
+
 ![](./doc/pic/option_zh.png)
 
 3、工具->开发板->开发板管理
@@ -98,13 +99,13 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 
 ### EEROM操作
 
-- **read_block(uint8_t *, uint16_t, uint8_t);  write_block(uint8_t *, uint16_t, uint8_t);**
+- **read_block(uint8_t *, uint16_t, uint8_t);  write_block(uint8_t *, uint16_t, uint8_t)**
     读写eerom数据到缓存
     
-- **read32(uint16_t);  write32(uint16_t, uint32_t);**
+- **read32(uint16_t);  write32(uint16_t, uint32_t)**
     读写eerom 32bit数据
     
-- **write_swm(uint16_t, uint32_t *, uint8_t);  read_swm(uint16_t, uint32_t *, uint8_t);**
+- **write_swm(uint16_t, uint32_t *, uint8_t);  read_swm(uint16_t, uint32_t *, uint8_t)**
 	连续模式读写数据到缓存
 	
 	DIY模式可以
@@ -113,6 +114,6 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 
 基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P系列烧录bootloard的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloard的，他们的接线，烧录方法完全一致。
 
-你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](libraries\Lgt328P_ISP\Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
+你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
 
 ![](./doc/pic/ISP.png)
