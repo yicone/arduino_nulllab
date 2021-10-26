@@ -21,7 +21,27 @@
           },
           "boards": [
             {"name": "Nulllab Mini-Nano"},
-            {"name": "Nulllab Nano"},
+            {"name": "Nulllab Nano/Maker-Nano"},
+            {"name": "Nulllab Mango Uno"},
+            {"name": "Nulllab Orion"},
+            {"name": "DIY Boards"}
+          ]
+        },
+        {
+          "name": "Nulllab AVR Compatible Boards",
+          "architecture": "avr",
+          "version": "1.0.1",
+          "category": "lgt8fx",
+          "url": "https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.1/nulllab_arduino-1.0.1.zip",
+          "archiveFileName": "nulllab_arduino-1.0.1.zip",
+          "checksum": "SHA-256:4b5184763d2ffafb3583e304358d4aed6cdf8054f1d232852c88aa9499fdcc8a",
+          "size": "3393539",
+          "help": {
+            "online": "https://gitee.com/nulllab/nulllab_arduino/issues"
+          },
+          "boards": [
+            {"name": "Nulllab Mini-Nano"},
+            {"name": "Nulllab Nano/Maker-Nano"},
             {"name": "Nulllab Mango Uno"},
             {"name": "Nulllab Orion"},
             {"name": "DIY Boards"}

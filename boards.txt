@@ -38,7 +38,10 @@ Mango.build.board=AVR_LARDU_328E
 #### Nano     ####
 #############################
 
-Nano.name= Nulllab Nano
+Nano.name= Nulllab Nano/Maker-Nano
+Nano.vid.0=0x2341
+Nano.pid.0=0x0137
+
 Nano.upload.tool=avrdude
 Nano.upload.protocol=arduino
 Nano.build.eerom_size=1

@@ -17,6 +17,7 @@
 - [x] [精准延时](https://github.com/nulllaborg/arduino_nulllab/commit/7a9b5e)
 - [x] (增强型功能) [兼容Arduino EEPROM API](https://github.com/nulllaborg/arduino_nulllab/commit/60e8c6d) DIY模式EEROM大小可以自由选择0,2,4,8KB 
 - [x] [Arduino uno/LGT As ISP下载器使用](./libraries/Lgt328P_ISP/README.md)
+- [ ] (增强型功能) [支持timer3]())
 - [ ] (增强型功能) [快速ADC]() )
 - [ ] (增强型功能) [快速IO口]())
 - [ ] (增强型功能)[2~6引脚80mA电流输出]())
@@ -66,14 +67,14 @@
 
 | 名字 | Nano V3.1                                                    | Nano Pro                                                     | Maker-Nano                                                   | Mango Uno                                                    | Orion                                                        |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![](./doc/pic/maker-nano.png)                                | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
-| 参数 | CH340下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4MM | CH340下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
-| 特点 | 尺寸完全兼容官方arduino nano 3.0                             | Micro-Usb接口<br />功能尺寸兼容Nano V3.0 单面贴片            | 2路电机驱动(最大1.5A输出)<br />兼容乐高孔                    | 尺寸完全兼容官方arduino uno r3                               | 补强Uno IO口不够用情况，功能介于Uno和Mega2560之间            |
-| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 准备量产                                                     | 准备量产                                                     | 开发中                                                       |
+| 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](D:\arduino-1.8.15\hardware\arduino_nulllab\avr\doc\pic\maker-nano.png) | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
+| 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
+| 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用情况，功能介于Uno和Mega2560之间            |
+| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 准备量产                                                     | 开发中                                                       |
 
 ##  LGT8F328P和Atmega328P芯片对比
 
-LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8XP增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内, 可运行在最高32MHz的核心频率; LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问. LGT8F328P集成了丰富的模拟外设, 包括12位ADC, 可编程增益差分放大器, 高精度1.024/2.048/4.096V内部参考电压, 8位DAC以及高速模拟比较器; 同时LGT8F328P内部也集成了常用的数字接口控制器, 支持多路互补PWM输出以及死区控制。8F328P架构设计比较新，外设功能远远强于Atmel MEGA328。尤其是程序加密能力更是远超MEGA328。
+LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8XP增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内, 可运行在最高32MHz的核心频率; LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问. LGT8F328P集成了丰富的模拟外设, 包括12位ADC, 可编程增益差分放大器, 高精度1.024/2.048/4.096V内部参考电压, 8位DAC以及高速模拟比较器; 同时LGT8F328P内部也集成了常用的数字接口控制器, 支持多路互补PWM输出以及死区控制。8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
 
 ## DIY模式说明
 
