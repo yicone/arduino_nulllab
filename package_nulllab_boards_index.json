@@ -34,8 +34,8 @@
           "category": "lgt8fx",
           "url": "https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.1/nulllab_arduino-1.0.1.zip",
           "archiveFileName": "nulllab_arduino-1.0.1.zip",
-          "checksum": "SHA-256:4b5184763d2ffafb3583e304358d4aed6cdf8054f1d232852c88aa9499fdcc8a",
-          "size": "3393539",
+          "checksum": "SHA-256:04f040d47e1ee28d19e727afef64a2f1d0b7499d35dedc2fc77c7c4e8066d6be",
+          "size": "3393538",
           "help": {
             "online": "https://github.com/nulllaborg/arduino_nulllab/issues"
           },
@@ -54,8 +54,8 @@
           "category": "lgt8fx",
           "url": "https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.0/nulllab_arduino-1.0.0.zip",
           "archiveFileName": "nulllab_arduino-1.0.0.zip",
-          "checksum": "SHA-256:e1a7461f13c3da8871bdb181468e80c6a53c4160162e1cbb7948bdfd25cd790a",
-          "size": "3605697",
+          "checksum": "SHA-256:73914adee0e1364abbfd35e919a7324d22beca7c589474f7e0a26ec62682408d",
+          "size": "3583176",
           "help": {
             "online": "https://github.com/nulllaborg/arduino_nulllab/issues"
           },
