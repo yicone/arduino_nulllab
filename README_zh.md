@@ -35,7 +35,7 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-> https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index.json
+> https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index_zh.json
 
 ![](./doc/pic/option_zh.png)
 
