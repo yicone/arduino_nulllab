@@ -22,29 +22,29 @@
 
 #include "wiring_private.h"
 
-// the prescaler is set so that timer2 ticks every 64 clock cycles, and the
+// the prescaler is set so that timer0 ticks every 64 clock cycles, and the
 // the overflow handler is called every 256 ticks.
-#define MICROSECONDS_PER_TIMER2_OVERFLOW (clockCyclesToMicroseconds(64 * 256))
+#define MICROSECONDS_PER_TIMER0_OVERFLOW (clockCyclesToMicroseconds(64 * 256))
 
-// the whole number of milliseconds per timer2 overflow
-#define MILLIS_INC (MICROSECONDS_PER_TIMER2_OVERFLOW / 1000)
+// the whole number of milliseconds per timer0 overflow
+#define MILLIS_INC (MICROSECONDS_PER_TIMER0_OVERFLOW / 1000)
 
-// the fractional number of milliseconds per timer2 overflow. we shift right
+// the fractional number of milliseconds per timer0 overflow. we shift right
 // by three to fit these numbers into a byte. (for the clock speeds we care
 // about - 8 and 16 MHz - this doesn't lose precision.)
-#define FRACT_INC ((MICROSECONDS_PER_TIMER2_OVERFLOW % 1000) >> 3)
+#define FRACT_INC ((MICROSECONDS_PER_TIMER0_OVERFLOW % 1000) >> 3)
 #define FRACT_MAX (1000 >> 3)
 
-volatile unsigned long timer2_overflow_count = 0;
-volatile unsigned long timer2_millis = 0;
-static unsigned char timer2_fract = 0;
+volatile unsigned long timer0_overflow_count = 0;
+volatile unsigned long timer0_millis = 0;
+static unsigned char timer0_fract = 0;
 
-ISR(TIMER2_OVF_vect)
+ISR(TIMER0_OVF_vect)
 {
 	// copy these to local variables so they can be stored in registers
 	// (volatile variables must be read from memory on every access)
-	unsigned long m = timer2_millis;
-	unsigned char f = timer2_fract;
+	unsigned long m = timer0_millis;
+	unsigned char f = timer0_fract;
 
 	m += MILLIS_INC;
 	f += FRACT_INC;
@@ -53,9 +53,9 @@ ISR(TIMER2_OVF_vect)
 		m += 1;
 	}
 
-	timer2_fract = f;
-	timer2_millis = m;
-	timer2_overflow_count++;
+	timer0_fract = f;
+	timer0_millis = m;
+	timer0_overflow_count++;
 }
 
 unsigned long millis()
@@ -63,10 +63,10 @@ unsigned long millis()
 	unsigned long m;
 	uint8_t oldSREG = SREG;
 
-	// disable interrupts while we read timer2_millis or we might get an
-	// inconsistent value (e.g. in the middle of a write to timer2_millis)
+	// disable interrupts while we read timer0_millis or we might get an
+	// inconsistent value (e.g. in the middle of a write to timer0_millis)
 	cli();
-	m = timer2_millis;
+	m = timer0_millis;
 	SREG = oldSREG;
 
 	return m;
@@ -77,20 +77,20 @@ unsigned long micros() {
 	uint8_t oldSREG = SREG, t;
 	
 	cli();
-	m = timer2_overflow_count;
-#if defined(TCNT2)
-	t = TCNT2;
-#elif defined(TCNT2L)
-	t = TCNT2L;
+	m = timer0_overflow_count;
+#if defined(TCNT0)
+	t = TCNT0;
+#elif defined(TCNT0L)
+	t = TCNT0L;
 #else
-	#error TIMER 2 not defined
+	#error TIMER 0 not defined
 #endif
 
-#ifdef TIFR2
-	if ((TIFR2 & _BV(TOV2)) && (t < 255))
+#ifdef TIFR0
+	if ((TIFR0 & _BV(TOV0)) && (t < 255))
 		m++;
 #else
-	if ((TIFR & _BV(TOV2)) && (t < 255))
+	if ((TIFR & _BV(TOV0)) && (t < 255))
 		m++;
 #endif
 
@@ -262,9 +262,9 @@ void init()
 	// resulting in different millis() behavior on the ATmega8 and ATmega168)
 
 	// Log(HSP v3.7):
-	//  - to compatible with standard android, timer0 will be work in
+	//  - to compatible with standard arduino, timer0 will be work in
 	//  - a PWM_FREQ_SLOW mode to compatible with standard arduino backend. 
-	//  - but we can also use pwmMode()/pwmFrequencey() to change its frequency.	
+	//  - but we can also use pwmMode()/pwmFrequencey() to change its frequency.
 #if defined(TCCR0A) && defined(WGM01)
 	sbi(TCCR0A, WGM01);
 	sbi(TCCR0A, WGM00);
@@ -277,6 +277,15 @@ void init()
 	sbi(TCCR0B, CS00);
 #else
 	#error Timer 0 prescale factor 64 not set correctly
+#endif
+
+	// enable timer 0 overflow interrupt
+#if defined(TIMSK) && defined(TOIE0)
+	sbi(TIMSK, TOIE0);
+#elif defined(TIMSK0) && defined(TOIE0)
+	sbi(TIMSK0, TOIE0);
+#else
+	#error	Timer 0 overflow interrupt not set correctly
 #endif
 
 	// timers 1 and 2 are used for phase-correct hardware pwm
@@ -322,14 +331,16 @@ void init()
 	// Timer 2 not finished (may not be present on this CPU)
 #endif
 
-	// enable timer 2 overflow interrupt
+/*  mark for nulllab
+    // enable timer 2 overflow interrupt
 #if defined(TIMSK) && defined(TOIE2)
-	sbi(TIMSK, TOIE2);
+    sbi(TIMSK, TOIE2);
 #elif defined(TIMSK2) && defined(TOIE2)
-	sbi(TIMSK2, TOIE2);
+    sbi(TIMSK2, TOIE2);
 #else
-	#error	Timer 2 overflow interrupt not set correctly
+    #error	Timer 2 overflow interrupt not set correctly
 #endif
+*/
 
 #if defined(TCCR3B) && defined(CS31) && defined(WGM30)
 	// Log(HSP v3.7): 
