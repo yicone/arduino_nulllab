@@ -273,6 +273,7 @@ void init()
 	// set default timer 0 prescale factor to 64
 #if defined(TCCR0B) && defined(CS01) && defined(CS00)
 	// this combination is for the standard 168/328/1280/2560
+	cbi(TCCR0B, CS02);
 	sbi(TCCR0B, CS01);
 	sbi(TCCR0B, CS00);
 #else
@@ -340,7 +341,6 @@ void init()
 #else
     #error	Timer 2 overflow interrupt not set correctly
 #endif
-*/
 
 #if defined(TCCR3B) && defined(CS31) && defined(WGM30)
 	// Log(HSP v3.7): 
@@ -355,6 +355,7 @@ void init()
 	// Log(HSP v3.7): END
 #endif
 #endif
+*/
 
 #if defined(TCCR4A) && defined(TCCR4B) && defined(TCCR4D) /* beginning of timer4 block for 32U4 and similar */
 	sbi(TCCR4B, CS42);		// set timer4 prescale factor to 64

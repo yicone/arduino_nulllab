@@ -23,7 +23,7 @@ compiler.c.cmd=avr-gcc
 compiler.c.flags=-c -g -Os {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects
 compiler.c.elf.flags={compiler.warning_flags} -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections
 compiler.c.elf.cmd=avr-gcc
-compiler.S.flags=-c -g -x assembler-with-cpp -flto -MMD
+compiler.S.flags=-g -x assembler-with-cpp -c -flto -MMD
 compiler.cpp.cmd=avr-g++
 compiler.cpp.flags=-c -g -Os {compiler.warning_flags} -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -flto
 compiler.ar.cmd=avr-gcc-ar
@@ -46,6 +46,7 @@ compiler.cpp.extra_flags=
 compiler.ar.extra_flags=
 compiler.objcopy.eep.extra_flags=
 compiler.elf2hex.extra_flags=
+compiler.start_file={runtime.platform.path}/cores/{build.core}/start.o
 
 # AVR compile patterns
 # --------------------
@@ -65,7 +66,8 @@ archive_file_path={build.path}/{archive_file}
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 
 ## Combine gc-sections, archives, and objects
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mmcu={build.mcu} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mmcu={build.mcu} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "{compiler.start_file}" "-L{build.path}" -lm
+
 
 ## Create output files (.eep and .hex)
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"

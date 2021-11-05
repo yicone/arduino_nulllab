@@ -158,6 +158,7 @@ void sysClockOutput(uint8_t enable)
 	//CLKPR |= 0x40;  // output cup fre to PE5
 }
 
+#if 0
 #if defined(__LGT8FX8P__) || defined(__LGT8FX8E__)
 // Log(HSP v3.7): PWM working mode
 // Function:
@@ -356,6 +357,8 @@ uint32_t pwmResolution(uint8_t pin, uint8_t resBits)
 
 	return freq;
 }
+#endif
+
 #endif
 
 void lgt8fx8x_init()

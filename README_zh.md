@@ -17,20 +17,18 @@
 - [x] [精准延时](https://github.com/nulllaborg/arduino_nulllab/commit/7a9b5e)
 - [x] (增强型功能) [兼容Arduino EEPROM API](https://github.com/nulllaborg/arduino_nulllab/commit/60e8c6d) DIY模式EEROM大小可以自由选择0,2,4,8KB 
 - [x] [Arduino uno/LGT As ISP下载器使用](./libraries/Lgt328P_ISP/README.md)
-- [ ] (增强型功能) [支持timer3]())
-- [ ] (增强型功能) [快速ADC]() )
-- [ ] (增强型功能) [快速IO口]())
-- [ ] (增强型功能)[2~6引脚80mA电流输出]())
-- [ ] (增强型功能) [把AREF引脚当作A10]())
-- [ ] (增强型功能) [低功耗电源管理]())
+- [x] (增强型功能) [支持timer3](./libraries/MsTimer3/examples/FlashLed/FlashLed.ino)
+- [ ] (增强型功能) [快速ADC]()
+- [ ] (增强型功能) [快速IO口]()
+- [ ] (增强型功能)[2~6引脚80mA电流输出]()
+- [ ] (增强型功能) [把AREF引脚当作A10]()
+- [ ] (增强型功能) [低功耗电源管理]()
 - [ ] (增强型功能)[ADC功能]()
 - [ ] [软件串口适用所有频率]()
 
 ## Nulllab开发板Arduino IDE支持包 
 
 安装包
-
-使用前请确保有gitee账号并网页登录
 
 1、文件->首选项，得到如下界面
 
@@ -63,7 +61,7 @@
 
 ## 开发板
 
-基于LGT8F328P系列主控做了5款款开发板分别针对于不同创客的应用场景
+**基于LGT8F328P系列主控针对于不同创客用场景的开发板**
 
 | 名字 | Nano V3.1                                                    | Nano Pro                                                     | Maker-Nano                                                   | Mango Uno                                                    | Orion                                                        |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -71,6 +69,15 @@
 | 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
 | 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用情况，功能介于Uno和Mega2560之间            |
 | 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 准备量产                                                     | 开发中                                                       |
+
+**其他基于LGT8F328P的开源项目**
+
+- [x] (rf-nano) [LGT8F328P+nRF24L01+模块无线传输模块](https://github.com/nulllaborg/lgt-rf-nano)
+- [ ] (grbl) [基于LGT8F328P写字机](https://github.com/nulllaborg/lgt-grbl)
+- [ ] (t12-soldering-station) [基于LGT8F328P的T12开源焊台](https://github.com/nulllaborg/lgt-t12-soldering-station)
+
+
+
 
 ##  LGT8F328P和Atmega328P芯片对比
 
@@ -118,8 +125,6 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
     
 - **write_swm(uint16_t, uint32_t *, uint8_t);  read_swm(uint16_t, uint32_t *, uint8_t)**
 	连续模式读写数据到缓存
-	
-	DIY模式可以
 
 ### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README_zh.md)
 
