@@ -2,7 +2,7 @@
 
 ## 写在之前
 
-​    arduino uno R3自发布至今已有10多年，早已风靡全球，它的主控采用的是Atmel公司的Atmega328P主控，这是一颗基于AVR架构的8位单片机，面世有数十年了。得益于arduino完整软硬件生态，基于arduino uno的产品和项目不计其数。但是真正采用Atmega328P来量产的项目，却很少，因为这个芯片性价比很低。今年芯片缺货，导致对创客生态影响也很大，偶然的机会了解到[LogicGreen](http://www.lgtic.com/)的LGT8F328P，发现这是一款国产指令集兼容 AVR，Atmega328P的芯片，经过严格测试，发现能够99%兼容Arduino IDE。Nulllab团队是专门基于国产芯片做开发板的自由技术组织，为此我们专程拜访了LGT公司，和这颗芯片设计者详细了解到，这是一颗增强8位RISC内核，针对原来架构的做了优化，指令执行快了一些，同时优化了flash部分，增加定时器，内置晶振，反正就是把一些现代IC设计的一些主流技术应用在老的AVR框架上，出来也有5年多了，但是一直没怎么大规模应用，因为当时大家对国产的芯片天然不信任，以为这是山寨克隆版，实际这是一颗兼容芯片，类似于GD32之于STM32一样。LGT公司发展至今也早已有其他产品线，所以重心也没有全部放在兼容arduino的生态上，[官方SDK]()也在2019年后已经停止更新维护，[国外有个开源项目](https://github.com/dbuezas/lgt8fx)还在更新。nulllab技术团队大部分来自国际一线芯片原厂，已在创客开源软硬件行业沉浸多年。决定为国产创客软硬件生态做一点事情，我们先从LGT系类芯片做起，继续基于官方SDK做优化升级
+​    arduino uno R3自发布至今已有10多年，早已风靡全球，它的主控采用的是Atmel公司的Atmega328P主控，这是一颗基于AVR架构的8位单片机，面世有数十年了。得益于arduino完整软硬件生态，基于arduino uno的产品和项目不计其数。但是真正采用Atmega328P来量产的项目，却很少，因为这个芯片性价比很低。今年芯片缺货，导致对创客生态影响也很大，偶然的机会了解到[LogicGreen](http://www.lgtic.com/)的LGT8F328P，发现这是一款国产指令集兼容 AVR，Atmega328P的芯片，经过严格测试，发现能够99%兼容Arduino IDE。Nulllab团队是专门基于国产芯片做开发板的自由技术组织，为此我们专程拜访了LGT公司，和这颗芯片设计者详细了解到，这是一颗增强8位RISC内核，针对原来架构的做了优化，指令执行快了一些，同时优化了flash部分，增加定时器3，可内置晶振，反正就是把一些现代IC设计的一些主流技术应用在老的AVR框架上，出来也有5年多了，但是一直没怎么大规模应用，因为当时大家对国产的芯片天然不信任，以为这是山寨克隆版，实际这是一颗兼容芯片，类似于GD32之于STM32一样。LGT公司发展至今也早已有其他产品线，所以重心也没有全部放在兼容arduino的生态上，[官方SDK]()也在2019年后已经停止更新维护，[国外有个开源项目](https://github.com/dbuezas/lgt8fx)还在更新。nulllab技术团队大部分来自国际一线芯片原厂，已在创客开源软硬件行业沉浸多年。决定为国产创客软硬件生态做一点事情，我们先从LGT系类芯片做起，继续基于官方SDK做优化升级
 
 ## Nulllab软件包特点
 
@@ -38,7 +38,7 @@
 ![](./doc/pic/option_zh.png)
 
 3、工具->开发板->开发板管理
-搜索nulllab,选择最新版本安装
+搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 4、开发板选择
 ![](./doc/pic/board_chioce.png)
@@ -65,9 +65,9 @@
 
 | 名字 | Nano V3.1                                                    | Nano Pro                                                     | Maker-Nano                                                   | Mango Uno                                                    | Orion                                                        |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png) | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
-| 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：50.8x25.4mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
-| 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用情况，功能介于Uno和Mega2560之间            |
+| 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png)                      | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
+| 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
+| 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用，功能介于Uno和Mega2560之间                |
 | 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 准备量产                                                     | 开发中                                                       |
 
 **其他基于LGT8F328P的开源项目**
@@ -85,12 +85,15 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 
 ## DIY模式说明
 
+如果是在市面上购买其他厂家的硬件如果需要使用这个软件包存在上传不了，可以使用如下模式
 
+![diy](./doc/pic/diy.png)
 
 ## 示例程序
 
-- [SysClock](https://github.com/nulllaborg/arduino_nulllab/blob/master/libraries/BasicsExamples/examples/SysClock/SysClock.ino) - 外部晶振和系统时钟配置方法
-- [AnalogRead](https://github.com/nulllaborg/arduino_nulllab/blob/master/libraries/BasicsExamples/examples/AnalogRead/AnalogRead.ino) - 12位ADC读取方法
+- [SysClock](./libraries/BasicsExamples/examples/SysClock/SysClock.ino) - 外部晶振和系统时钟配置方法
+- [AnalogRead](./libraries/BasicsExamples/examples/AnalogRead/AnalogRead.ino) - 12位ADC读取方法
+- [Timer3](./libraries/MsTimer3/examples/FlashLed/FlashLed.ino) - 定时器3使用方法
 
 ### SysClock 配置
 
@@ -114,6 +117,13 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 	
 - **sysClockOutput()**
 	1:使能D8引脚输出CPU系统主频 0:关闭D8输出
+	
+### Timer3支持
+	
+- **MsTimer3::set(timeout,  func)**
+	设置timeout为定时时间单位ms, func为定时函数
+- **MsTimer3::start()**
+	启动定时器3
 
 ### EEROM操作
 
@@ -133,3 +143,12 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P, LGT8FX8P系列实现LGT8X
 你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
 
 ![](./doc/pic/ISP.png)
+
+
+
+## 感谢
+
+- [Larduino_HSP](https://github.com/LGTMCU/Larduino_HSP) 官方库支持已经完成了大部分适配工作，但是2019年已经停止更新，nulllab基于官方软件包继续维护
+- [lgt8fx](https://github.com/dbuezas/lgt8fx)  添加了新功能和修复了bug
+- 感谢[emkefun](www.github.com/emakefun)，[keywish](www.github.com/keywish)两个公司生产了对应的硬件，并使用了此软件包
+

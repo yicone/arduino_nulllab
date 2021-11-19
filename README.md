@@ -26,6 +26,7 @@ Now you should find a new entry *nulllab avr compatible boards* in the list at
 
 - [x] PWM & Timers update
 - [x] Fast_IO update
+- [x]  [Support timer3](./libraries/MsTimer3/examples/FlashLed/FlashLed.ino)
 - [ ] Analog Comparator
 - [ ] Differential Amplifier update 
 - [ ] Computation Accelerator
