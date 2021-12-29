@@ -25,7 +25,7 @@ Now you should find a new entry *nulllab avr compatible boards* in the list at
 ### Task status
 
 - [x] PWM & Timers update
-- [x] Fast_IO update
+- [x] Fast_IO update(/libraries/BasicsExamples/examples/FastIO/FastIO.ino)
 - [x]  [Support timer3](./libraries/MsTimer3/examples/FlashLed/FlashLed.ino)
 - [ ] Analog Comparator
 - [ ] Differential Amplifier update 

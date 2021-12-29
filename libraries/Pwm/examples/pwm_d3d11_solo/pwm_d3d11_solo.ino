@@ -1,4 +1,4 @@
-
+#include <pwm.h>
 uint16_t dutyMax = 0xff;
 
 void setup() {

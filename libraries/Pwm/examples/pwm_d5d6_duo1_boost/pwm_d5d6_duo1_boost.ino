@@ -1,4 +1,4 @@
-
+#include <pwm.h>
 uint16_t dutyMax = 0xff;
 uint8_t deadBand = 0x8;
 
@@ -11,8 +11,8 @@ void setup() {
   //      - PWM_FREQ_FAST mode = 62.5KHz, can be boost up to 250KHz (boost x4)
   //      - PWM_FREQ_NORMAL mode = 976Hz, can be boost up to 3.9KHz (boost x4)
   //      - PWM_FREQ_SLOW mode = 61Hz, can be boost up to 244Hz (boost x4)
-  // demo will set pwm to FAST mode w/o boost, so get 62.5KHz output
-  pwmMode(D5, PWM_MODE_DUO1, PWM_FREQ_FAST, deadBand);
+  // demo will set pwm to FAST mode with boost, so get 250KHz output
+  pwmMode(D5, PWM_MODE_DUO1, PWM_FREQ_FAST|PWM_FREQ_BOOST, deadBand);
 
   // usage: pwmWrite(pin, duty)
   pwmWrite(D5, dutyMax >> 2);

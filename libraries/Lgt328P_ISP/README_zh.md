@@ -1,10 +1,10 @@
 **[English](README.md)**
 
 # 前言
-有时候arduino bootloard会有极低概率存在bootloard损坏或者丢失情况，导致使用Arduino IDE工具上传程序失败，这个时候我们需要一些工具和方法来重烧bootloard。
-此文档详细介绍了三种方法给LGT8F328P芯片下载Bootloard的方法。您可以使用官方Arduino Uno主板或Nulllab-Nano板(基于lgt328p)作为ISP(编程器)来个LGT8F328P的芯片烧录引导程序，或者直接使用LGT8F328P专用ISP下载器来烧录。
+有时候arduino bootloader会有极低概率存在bootloader损坏或者丢失情况，导致使用Arduino IDE工具上传程序失败，这个时候我们需要一些工具和方法来重烧bootloader。
+此文档详细介绍了三种方法给LGT8F328P芯片下载bootloader的方法。您可以使用官方Arduino Uno主板或Nulllab-Nano板(基于lgt328p)作为ISP(编程器)来个LGT8F328P的芯片烧录引导程序，或者直接使用LGT8F328P专用ISP下载器来烧录。
 
-## 一、官方Arduino Uno给LGT-Nano烧录bootloard
+## 一、官方Arduino Uno给LGT-Nano烧录bootloader
 
 ### 使用说明
 
@@ -29,7 +29,7 @@
 - 3.选择烧录器：工具->编程器->Arduino/Nulllab as ISP(LGT328P）
 - 4.点击烧录引导程序
 
-## 二、Nulllab-Nano(LGT8F328P)给Nulllab-Nano(LGT8F328P烧录bootloard
+## 二、Nulllab-Nano(LGT8F328P)给Nulllab-Nano(LGT8F328P烧录bootloader
 
 ### 使用说明
  1、Nulllab-Nano制作成ISP：
@@ -53,7 +53,7 @@
 - 3.选择烧录器：工具->编程器->Arduino/Nulllab as ISP(LGT328P）
 - 4.点击烧录引导程序
 
-## 三、使用LGT-ISP专用Bootloard工具烧录
+## 三、使用LGT-ISP专用bootloader工具烧录
 
 ### 使用说明
  为了批量生产，或者维修方便，Nulllab开发了LGT8F328P专门的工具，只需要上电后，将烧录工具的1脚对应LGT-Nano烧录接口1脚插入，可以看见红绿灯交替闪烁，直至绿灯常亮即可，如果出现红灯代表烧录失败。

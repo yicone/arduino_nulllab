@@ -52,7 +52,6 @@ void analogReference(uint8_t mode)
 	} else {
 		VCAL = VCAL1;
 	}
-	dafa
 	#else
 	// set analog reference for ADC/DAC
 	if(analog_reference == EXTERNAL) {
@@ -198,7 +197,7 @@ void analogWrite(uint8_t pin, uint16_t val)
 	// for consistenty with Wiring, which doesn't require a pinMode
 	// call for the analog output pins.
 
-	if(LGT_NOT_DACO(pin)) {
+	if (LGT_NOT_DACO(pin)) {
 		pinMode(pin, OUTPUT);
 	}
 
@@ -378,6 +377,7 @@ void analogWrite(uint8_t pin, uint16_t val)
 				} else {
 					digitalWrite(pin, HIGH);
 				}
+                break;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-
+#include <pwm.h>
 uint16_t dutyMax = 0xff;
 uint8_t deadBand = 0x8;
 

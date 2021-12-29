@@ -1,4 +1,4 @@
-
+#include <pwm.h>
 uint16_t freq = 0;
 uint8_t pwm_flag = 0;
 

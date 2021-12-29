@@ -34,12 +34,6 @@ void pinMode(uint8_t pin, uint8_t mode)
 	uint8_t port = digitalPinToPort(pin);
 	volatile uint8_t *reg, *out;
 
-	// Log(HSP v3.7): 
-	//  - turn off pwm output for we want to control i/o directly.
-	//  - note: analogWrite/pwmWrite will open i/o for output automatically.
-	pwmTurnOff(pin);
-	// Log(HSP v3.7): END
-
 #if defined(__LGT8FX8E__)
 	if(mode == ANALOG) {
 		if(pin == DAC0) {
@@ -214,11 +208,8 @@ void digitalWrite(uint8_t pin, uint8_t val)
 
 	// If the pin that support PWM output, we need to turn it off
 	// before doing a digital write.
-	// Log(HSP v3.7): 
-	//  - move to pinMode() to make I/O writer more faster
-	//  - it should be no problem to turn/off PWM if we set i/o direction explicitly!
-	//uint8_t timer = digitalPinToTimer(pin);
-	//if(timer != NOT_ON_TIMER) __turnOffPWM(timer);
+	uint8_t timer = digitalPinToTimer(pin);
+	if(timer != NOT_ON_TIMER) __turnOffPWM(timer);
 	// Log(HSP v3.7): END
 
 	out = portOutputRegister(port);
@@ -244,16 +235,8 @@ int digitalRead(uint8_t pin)
 
 	// If the pin that support PWM output, we need to turn it off
 	// before getting a digital reading.
-	// Log(HSP v3.7): 
-	//  - think that: why we do read pin if we set it to pwm mode ??
-	//	- Maybe, it should be in case of some very special application,
-	//  - so, it's your matter to turn/off pwm before read.
-	//	- You can turn/off pwm by pwmTurnOff() or pinMode()
-	// The More:
-	//	- Infect, we can read pin even in pwm cycle. that is useful if we want to
-	//	- test current pwm output status (if we run fast enough!!)
-	//uint8_t timer = digitalPinToTimer(pin);
-	//if (timer != NOT_ON_TIMER) pwmTurnOff(timer);
+	uint8_t timer = digitalPinToTimer(pin);
+	if (timer != NOT_ON_TIMER) pwmTurnOff(timer);
 	// Log(HSP v3.7): END
 
 	if (*portInputRegister(port) & bit) return HIGH;
@@ -275,6 +258,7 @@ void digitalToggle(uint8_t pin)
 #endif
 }
 
+#if 0
 // Log(HSP v3.7): Exntenced PWM output
 // Note: you can keep on use analogWrite() for compatible purpose!
 #if defined(__LGT8FX8P__) || defined(__LGT8F8XE__)
@@ -317,12 +301,12 @@ void pwmWrite(uint8_t pin, uint16_t val)
 		#endif
 		#if defined(TCCR0A) && defined(COM0B1)
 		case TIMER0B: // D5
-			// connect pwm to pin on timer 0, channel B			
-			OCR0B = (uint8_t)val; // set pwm duty			
-			sbi(TCCR0A, COM0B1);				
+			// connect pwm to pin on timer 0, channel B
+			OCR0B = (uint8_t)val; // set pwm duty
+			sbi(TCCR0A, COM0B1);
 			#if defined(__LGT8FXP48__)
 			unlockWrite(&PMX0, (PMX0 & ~_BV(C0BF3)));
-			#endif					
+			#endif
 			sbi(DDRD, PD5);
 			break;
 		#if defined(__LGT8FXP48__)
@@ -569,3 +553,4 @@ void pwmWrite(uint8_t pin, uint16_t val)
 }
 
 #endif // __LGT8FX8E__ || __LGT8FX8P__
+#endif
