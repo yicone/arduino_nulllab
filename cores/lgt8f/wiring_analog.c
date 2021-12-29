@@ -61,7 +61,7 @@ void analogReference(uint8_t mode)
 			PMX2 = 0x80; 
 			PMX2 = GPIOR0;
 		}
-	} else if(analog_reference == DEFAULT) {
+	} else if(analog_reference == DEFAULT) { //²Î¿¼µçÑ¹Î¢AVCC
 		DACON &= 0x0C;
 	} else {
 		DACON = (DACON & 0x0C) | 0x2;
@@ -178,7 +178,7 @@ int analogRead(uint8_t pin)
 	if (analog_resbit == ADC12BIT)
 		return adcVal;
 	else 
-		return adcVal&0x3FF;
+		return adcVal>>2;
 #else
 	return adcVal;
 #endif	
