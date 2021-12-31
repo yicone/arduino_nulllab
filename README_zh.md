@@ -51,9 +51,10 @@
 ![](./doc/pic/board_chioce.png)
 
 ## Mixly支持包
-1、下载支持LGT主板的[Mixly安装包安装脚本](https://cdn.jsdelivr.net/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)
-a、LGT_Mixly_Update.bat放到Mixly_WIN根目录下
-b、双击运行-->输入y-->回车
+1、下载支持LGT主板的[Mixly安装包安装脚本](https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)
+
+a、**LGT_Mixly_Update.bat**放到**Mixly_WIN**根目录下
+b、**双击运行**-->**输入y**-->**回车**
 
 2、打开Mixly，按照下面提示即可以上传程序
 ![](./doc/pic/mixly_select_board.png)
