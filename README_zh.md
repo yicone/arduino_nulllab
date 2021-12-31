@@ -31,6 +31,7 @@
 
 安装包
 
+### 方法一、网络安装
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
@@ -41,11 +42,18 @@
 3、工具->开发板->开发板管理
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
+### 方法二、手动安装
+1、直接下载[最新软件支持包](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/archive/master.zip)
+2、将解压并修改名字到arduino-ide\hardware\arduino_nulllab-master\avr\这个目录下要看到 boards.txt和platform.txt文件
+3、重新打开Arduino IDE应用程序
+
 4、开发板选择
 ![](./doc/pic/board_chioce.png)
 
 ## Mixly支持包
-1、下载支持主板的[Mixly安装包](http://www.emakefun.com/uploads/software/Mixly_WIN.zip)
+1、下载支持LGT主板的[Mixly安装包安装脚本](https://cdn.jsdelivr.net/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)
+a、LGT_Mixly_Update.bat放到Mixly_WIN根目录下
+b、双击运行-->输入y-->回车
 
 2、打开Mixly，按照下面提示即可以上传程序
 ![](./doc/pic/mixly_select_board.png)

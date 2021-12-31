@@ -1,0 +1,34 @@
+{
+  "packages": [
+    {
+      "name": "nulllab",
+      "maintainer": "nulllab.cn",
+      "websiteURL": "https://github.com/nulllaborg/arduino_nulllab",
+      "email": "nulljun@nulllab.cn",
+      "help": {
+        "online": "www.nulllab.cn"
+      },
+      "platforms": [
+        {
+          "name": "nulllab",
+          "architecture": "avr",
+          "version": "2.0.0",
+          "category": "lgt8fx",
+          "url": "https://github.com/nulllaborg/arduino_nulllab/archive/master.zip",
+          "archiveFileName": "master.zip",
+          "help": {
+            "online": "https://github.com/nulllaborg/arduino_nulllab/issues"
+          },
+          "boards": [
+            {"name": "Nulllab Mini-Nano"},
+            {"name": "Nulllab Nano/Maker-Nano"},
+            {"name": "Nulllab Mango Uno"},
+            {"name": "Nulllab Orion"},
+            {"name": "DIY Boards"}
+          ]
+        }
+      ],
+      "tools": []
+    }
+  ]
+}
