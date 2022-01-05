@@ -43,20 +43,24 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、直接下载[最新软件支持包](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/archive/master.zip)
-2、将解压并修改名字到arduino-ide\hardware\arduino_nulllab-master\avr\这个目录下要看到 boards.txt和platform.txt文件
+1、直接下载[**最新软件支持包**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/archive/master.zip)
+
+2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
+
 3、重新打开Arduino IDE应用程序
 
 4、开发板选择
 ![](./doc/pic/board_chioce.png)
 
 ## Mixly支持包
-1、下载支持LGT主板的[Mixly安装包安装脚本](https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)
+1、下载支持LGT主板的[**Mixly安装脚本window版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)，[**Mixly安装脚本Mac版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.sh)
 
-a、**LGT_Mixly_Update.bat**放到**Mixly_WIN**根目录下
+a、将**LGT_Mixly_Update**放到**Mixly_WIN**根目录下
+
 b、**双击运行**-->**输入y**-->**回车**
 
-2、打开Mixly，按照下面提示即可以上传程序
+2、打开Mixly，按下面提示即可以编译上传程序
+
 ![](./doc/pic/mixly_select_board.png)
 
 ## Magicblock（基于scratch3.0）图像化软件支持 
@@ -74,6 +78,8 @@ b、**双击运行**-->**输入y**-->**回车**
 
 **基于LGT8F328P系列主控针对于不同创客用场景的开发板**
 
+[基础参考设计原理图](./doc/LGT328P-LQFP32-Nano.pdf)
+
 | 名字 | Nano V3.1                                                    | Nano Pro                                                     | Maker-Nano                                                   | Mango Uno                                                    | Orion                                                        |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png)                      | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
@@ -86,11 +92,22 @@ b、**双击运行**-->**输入y**-->**回车**
 - [x] (rf-nano) [LGT8F328P+nRF24L01+模块无线传输模块](https://github.com/nulllaborg/lgt-rf-nano)
 - [ ] (grbl) [基于LGT8F328P写字机](https://github.com/nulllaborg/lgt-grbl)
 - [ ] (t12-soldering-station) [基于LGT8F328P的T12开源焊台](https://github.com/nulllaborg/lgt-t12-soldering-station)
+- [ ] (晶体管测试仪)
 
 
 ##  LGT8F328P和Atmega328P芯片对比
 
-LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP40三个封装芯片。 LGT8FX8P系列实现LGT8XP增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内, 可运行在最高32MHz的核心频率; LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问. LGT8F328P集成了丰富的模拟外设, 包括12位ADC, 可编程增益差分放大器, 高精度1.024/2.048/4.096V内部参考电压, 8位DAC以及高速模拟比较器; 同时LGT8F328P内部也集成了常用的数字接口控制器, 支持多路互补PWM输出以及死区控制。8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
+LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48三个封装芯片详细查看[数据手册]( ./doc/LGT8FX8P_Databook_v1.0.5.pdf) 。
+
+1、增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内,**支持内部晶振，可运行在最高32MHz的核心频率**; 
+
+2、LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问，**如果使用eerom的话总flash只有30K，比他Atmega328P少2K**；
+
+3、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A8(D23)，A9(24)，A10(25)，A11(D26)模拟输入口，D22，REST，晶振引脚都可以配置成GPIO口;
+
+4、LGT8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
+
+
 
 ## DIY模式说明
 
@@ -160,7 +177,7 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP40�
 
 ### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README_zh.md)
 
-基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P系列烧录bootloader的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloader的，他们的接线，烧录方法完全一致。
+基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P芯片烧录bootloader的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloader的，他们的接线，烧录方法完全一致。
 
 你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
 
@@ -173,4 +190,4 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP40�
 - 感谢[emkefun](www.github.com/emakefun)，[keywish](www.github.com/keywish)两个公司生产了对应的硬件，并使用了此软件包
 
 ## 联系
-对LGT芯片替代atmega328P方案感兴趣的和需要全方位技术支持的请添加微信null-lab
+对LGT芯片替代Atmega328P方案感兴趣的和需要全方位技术支持的请添加微信null-lab
