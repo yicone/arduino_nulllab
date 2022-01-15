@@ -1,5 +1,6 @@
 #ifndef PWM_H_
 #define PWM_H_
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C"{
@@ -25,7 +26,7 @@ uint32_t pwmResolution(uint8_t, uint8_t);
 #define PWM_FREQ_NORMAL   0x03
 #define PWM_FREQ_SLOW     0x05
 void pwmMode(uint8_t pin, uint8_t wmode, uint8_t fmode = PWM_FREQ_FAST, uint8_t dband = 0);
-
+void pwmWrite(uint8_t, uint16_t);
 #ifdef __cplusplus
 } // extern "C"
 #endif
