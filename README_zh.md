@@ -6,7 +6,7 @@
 
 ## Nulllab软件包特点
 
-​    官方sdk也好，还是国外另外一个软件包，其实都没有做到百分之百兼容原生的arduino，特定应用还是存在有bug，nulllab团队致力于解决这些bug，并且把LGT8F328P相对于Atemag328P增加的功能添加进来，发挥这颗芯片的最大性能。那么对于小批量的产品而言，完全可以采用这个芯片来用Arduino IDE的方式开发产品，将大大简化开发难度。
+​    官方sdk也好，还是国外另外一个软件包，其实都没有做到百分百之百兼容原生的arduino，特定应用还是存在有bug，nulllab团队致力于解决这些bug，并且把LGT8F328P相对于Atemag328P增加的功能添加进来，发挥这颗芯片的最大性能。那么对于小批量的产品而言，完全可以采用这个芯片来用Arduino IDE的方式开发产品，将大大简化开发难度。
 
 打勾的代表已经实现并验证，没有打勾的代表正在开发中，期待更多开发者一起维护
 - [x] [去掉停产D后缀系类的芯片](https://github.com/nulllaborg/arduino_nulllab/commit/48fd6c3)
@@ -52,7 +52,7 @@
 4、开发板选择
 ![](./doc/pic/board_chioce.png)
 
-## Mixly支持包
+## Mixly1.0支持包
 1、下载支持LGT主板的[**Mixly安装脚本window版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)，[**Mixly安装脚本Mac版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.sh)
 
 a、将**LGT_Mixly_Update**放到**Mixly_WIN**根目录下
@@ -63,7 +63,16 @@ b、**双击运行**-->**输入y**-->**回车**
 
 ![](./doc/pic/mixly_select_board.png)
 
-## Magicblock（基于scratch3.0）图像化软件支持 
+## Mixly2.0支持包
+
+Mixly2.0官方云端自带LGT芯片的库，所以导入比较方便，如下图步骤；
+
+![mixly2_step1](./doc/pic/mixly2_step1.png)
+
+![mixly2_step2](./doc/pic/mixly2_step2.png)
+
+## Magicblock（基于scratch3.0）图像化软件支持
+
 1、[下载MagicBlock](http://www.emakefun.com/uploads/software/MagicBlockSetup.exe)
 
 2、安装好MagicBlock，并且打开MagicBlock
@@ -106,6 +115,7 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 3、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A8(D23)，A9(24)，A10(25)，A11(D26)模拟输入口，D22，REST，晶振引脚都可以配置成GPIO口;
 
 4、LGT8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
+
 
 
 ## DIY模式说明
@@ -189,4 +199,4 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 - 感谢[emkefun](www.github.com/emakefun)，[keywish](www.github.com/keywish)两个公司生产了对应的硬件，并使用了此软件包
 
 ## 联系
-对LGT芯片替代Atmega328P方案感兴趣的和需要全方位技术支持的请添加微信**null-lab**
+对LGT芯片替代Atmega328P方案感兴趣的和需要全方位技术支持的请添加微信null-lab
