@@ -52,7 +52,7 @@
 4、开发板选择
 ![](./doc/pic/board_chioce.png)
 
-## Mixly支持包
+## Mixly1.0支持包
 1、下载支持LGT主板的[**Mixly安装脚本window版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)，[**Mixly安装脚本Mac版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.sh)
 
 a、将**LGT_Mixly_Update**放到**Mixly_WIN**根目录下
@@ -62,6 +62,14 @@ b、**双击运行**-->**输入y**-->**回车**
 2、打开Mixly，按下面提示即可以编译上传程序
 
 ![](./doc/pic/mixly_select_board.png)
+
+## Mixly2.0支持包
+
+Mixly2.0官方云端自带LGT芯片的库，所以导入比较方便，下载最新版本的Mixly安装包，然后操作下图步骤；
+
+![mixly2_step1](./doc/pic/mixly2_step1.png)
+
+![mixly2_step2](./doc/pic/mixly2_step2.png)
 
 ## Magicblock（基于scratch3.0）图像化软件支持 
 1、[下载MagicBlock](http://www.emakefun.com/uploads/software/MagicBlockSetup.exe)
