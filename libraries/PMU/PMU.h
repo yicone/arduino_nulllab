@@ -32,66 +32,83 @@
  * 		wake up by external interrupt only
  */
 
-#define	PM_ADC_ON 	0xFFFE
-#define	PM_USART0_ON 	0xFFFD
-#define	PM_SPI_ON	0xFFFB
-#define	PM_TIM1_ON	0xFFF7
-#define	PM_BOD_ON	0xFFEF
-#define	PM_TIM0_ON	0xFFDF
-#define	PM_TIM2_ON	0xFFBF
-#define	PM_TWI_ON	0xFF7F
-
-#define	PM_PCI_ON	0xFDFF
-#define	PM_E2P_ON	0xFBFF
-#define	PM_WDT_ON	0xDFFF
+#define PM_ADC_ON   0xFFFE
+#define PM_USART0_ON    0xFFFD
+#define PM_SPI_ON   0xFFFB
+#define PM_TIM1_ON  0xFFF7
+#define PM_BOD_ON   0xFFEF
+#define PM_TIM0_ON  0xFFDF
+#define PM_TIM2_ON  0xFFBF
+#define PM_TWI_ON   0xFF7F
+        
+#define PM_PCI_ON   0xFDFF
+#define PM_E2P_ON   0xFBFF
+#define PM_WDT_ON   0xDFFF
 
 enum period_t {
-	SLEEP_64MS = 0,
-	SLEEP_128MS,
-	SLEEP_256MS,
-	SLEEP_512MS,
-	SLEEP_1S,
-	SLEEP_2S,
-	SLEEP_4S,
-	SLEEP_8S,
-	SLEEP_16S,
-	SLEEP_32S,
-	SLEEP_FOREVER = 0xFF
+    SLEEP_64MS = 0,
+    SLEEP_128MS,
+    SLEEP_256MS,
+    SLEEP_512MS,
+    SLEEP_1S,
+    SLEEP_2S,
+    SLEEP_4S,
+    SLEEP_8S,
+    SLEEP_16S,
+    SLEEP_32S,
+    SLEEP_FOREVER = 0xFF
 };
 
 enum pmu_t {
-	PM_IDLE,
-	PM_POWERDOWN = 2,
-	PM_POFFS1 = 3,
-	PM_POFFS0 = 6
+    PM_IDLE,
+    PM_POWERDOWN = 2,
+    PM_POFFS1 = 3,
+    PM_POFFS0 = 6,
+    PM_POFFS2 = 7
+};
+
+enum lvd_t {
+    PM_LVD_1V8,
+    PM_LVD_2V2,
+    PM_LVD_2V5,
+    PM_LVD_2V9,
+    PM_LVD_3V2,
+    PM_LVD_3V6,
+    PM_LVD_4V0,
+    PM_LVD_4V4,
+    PM_LVD_DISABLE
 };
 
 class PowerControl
 {
 private:
-	uint8_t pmcr_reg;
-	uint8_t clkpr_reg;
-	uint8_t wdtcr_reg;
-	uint8_t ldocr_reg;
+    uint8_t pmcr_reg;
+    uint8_t clkpr_reg;
+    uint8_t wdtcr_reg;
+    uint8_t ldocr_reg;
 #if defined(__LGT8FX8E__)
-	uint8_t adcsra_reg;
-	uint8_t ddrd_reg;
-	uint8_t ddrb_reg;
-	uint8_t portd_reg;
-	uint8_t portb_reg;
-	uint8_t didr0_reg;
+    uint8_t adcsra_reg;
+    uint8_t ddrd_reg;
+    uint8_t ddrb_reg;
+    uint8_t portd_reg;
+    uint8_t portb_reg;
+    uint8_t didr0_reg;
 #endif
 
-	void resume(pmu_t mode, period_t period);
-	void clock_switch(pmu_t mode);
-	void do_sleep(pmu_t mode);
-	void enable_wdt(period_t period);
-	void enable_rc32k(bool wcs = 0);
+    void resume(pmu_t mode, period_t period);
+    void clock_switch(pmu_t mode);
+    void do_sleep(pmu_t mode);
+
+
+    void enable_wdt(period_t period);
+    void enable_rc32k(bool wcs = 0);
 
 public:
-	PowerControl();
-	void sleep(pmu_t mode, period_t period = SLEEP_FOREVER);
-	void setIOCompatible() { DDRE |= 0x10; PORTE &= 0xef; };
+    PowerControl();
+    void set_lvd(lvd_t lvd);
+    void soft_reset(void);
+    void sleep(pmu_t mode, period_t period = SLEEP_FOREVER);
+    void setIOCompatible() {DDRE |= 0x10; PORTE &= 0xef;};
 };
 
 extern PowerControl PMU;

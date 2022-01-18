@@ -39,11 +39,20 @@ arduino_nulllab is a 3rd party hardware support package for the LGT8F core based
 Microcontroller based on LGT8F, e.g LGT8F328P has more advanced features which not covered in standard arduino implementation. so there are also many new features merged to this 3rd party package. Important update and new features as following:
 
 * *External/Internal crystal can be selected at runtime*
+
 * *Fast_IO interface for fast I/O speed and small code size*
+
 * *Full configurable PWM features, including complementary and dead-band control*
+
 * *Differential Amplifier front-end for 12bit Analog-to-Digital converter*
+
 * *1/2 channel 8bit Digtial-to-Analog output, campatible with `analogWrite()`*
+
 * *More standalone I/Os*
+
+### Pin Different
+
+![pin_diff](./doc/pic/pin_diff.jpg)
 
 
 ### Bootloader 

@@ -22,10 +22,11 @@
 - [x] (增强型功能) [快速IO口](./libraries/BasicsExamples/examples/FastIO/FastIO.ino) 减少代码体积，大大提升执行效率
 - [ ] (增强型功能) [2~6引脚80mA电流输出]()
 - [ ] (增强型功能) [把AREF引脚当作A10]()
-- [ ] (增强型功能) [低功耗电源管理]()
+- [x] (增强型功能) [低功耗电源管理](./libraries/PMU/examples/PMU_PowerOff/PMU_PowerOff.ino)
 - [ ] (增强型功能) [DAC功能]()
 - [ ] (增强型功能) [不使用eerom，直接操作flash]()
 - [ ] [软件串口适用所有频率]()
+- [ ] [32M频率串口，延时函数适配]()
 
 ## Nulllab开发板Arduino IDE支持包 
 
@@ -65,7 +66,7 @@ b、**双击运行**-->**输入y**-->**回车**
 
 ## Mixly2.0支持包
 
-Mixly2.0官方云端自带LGT芯片的库，所以导入比较方便，下载最新版本的Mixly安装包，然后操作下图步骤；
+经过nulllab团队和mixly官方联系，Mixly2.0官方云端已自带LGT芯片的库，所以导入比较方便，下载最新版本的Mixly安装包，打开Mixly2.0软件，或者**双击软件左上角Mixly图标** 课件见到选择主板首页，然后操作下图步骤；
 
 ![mixly2_step1](./doc/pic/mixly2_step1.png)
 
@@ -180,7 +181,31 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
     读写eerom 32bit数据
 - **write_swm(uint16_t, uint32_t *, uint8_t) **
 -  **read_swm(uint16_t, uint32_t *, uint8_t)**
-	连续模式读写数据到缓存
+    连续模式读写数据到缓存
+
+### 低功耗电源管理
+
+- **set_lvd(lvd_t lvd)**
+    LGT8F328P为低功耗芯片，工作电压为1.8V~5.5V，所以很多在电压1.8V时就可以工作，但是很多事情其他外设还没有工作导致出问题，这个函数可以设置低压检测复位电压，来避免这个问题，电压选择如下，默认为关闭状态。
+    PM_LVD_1V8,
+    PM_LVD_2V2,
+    PM_LVD_2V5,
+    PM_LVD_2V9,
+    PM_LVD_3V2,
+    PM_LVD_3V6,
+    PM_LVD_4V0,
+    PM_LVD_4V4
+    
+- **soft_reset(void)**
+    软件复位
+- **sleep(pmu_t mode, period_t period = SLEEP_FOREVER);**
+    低功耗模式(具体查看手册描述)
+    PM_IDLE
+    PM_POWERDOWN
+    PM_POFFS1
+    PM_POFFS0 
+    PM_POFFS2 
+    period 为唤醒时间间隔，SLEEP_FOREVER为直接睡眠
 
 ### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README_zh.md)
 
