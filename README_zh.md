@@ -44,7 +44,7 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.4.zip)
+1、[**直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.4.zip)
 
 2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
 
