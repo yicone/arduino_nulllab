@@ -44,7 +44,7 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、直接下载[**最新软件支持包**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/archive/master.zip)
+1、直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.4.zip)
 
 2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
 
@@ -54,7 +54,7 @@
 ![](./doc/pic/board_chioce.png)
 
 ## Mixly1.0支持包
-1、下载支持LGT主板的[**Mixly安装脚本window版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.bat)，[**Mixly安装脚本Mac版**](https://github.com.cnpmjs.org/nulllaborg/arduino_nulllab/releases/download/v1.0.3/LGT_Mixly_Update.sh)
+1、下载支持LGT主板的[**Mixly安装脚本window版**](https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.4/LGT_Mixly_Update.bat)，[**Mixly安装脚本Mac版**](https://github.com/nulllaborg/arduino_nulllab/releases/download/v1.0.4/LGT_Mixly_Update.sh)
 
 a、将**LGT_Mixly_Update**放到**Mixly_WIN**根目录下
 
