@@ -18,7 +18,6 @@
 */
 #include <avr/wdt.h>
 #include <Arduino.h>
-#include <wiring_private.h>
 
 #define OSC_DELAY()	do {\
 	_NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP(); _NOP();\
@@ -47,31 +46,30 @@ void __patch_wdt(void)
 }
 #endif
 
-
 void sysClock(uint8_t mode)
 {
-	if(mode == INT_OSC_32M) {
-		// switch to internal crystal
-		GPIOR0 = PMCR & 0x9f;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
+    if(mode == INT_OSC_32M) {
+        // switch to internal crystal
+        GPIOR0 = PMCR & 0x9f;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
 
-		// disable external crystal
-		GPIOR0 = PMCR & 0xf3;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
+        // disable external crystal
+        GPIOR0 = PMCR & 0xf3;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
 
-	}  else if(mode == INT_OSC_32K) {
-	    // switch to internal 32K crystal
-		GPIOR0 = (PMCR & 0x9f) | 0x40;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
+    }  else if(mode == INT_OSC_32K) {
+        // switch to internal 32K crystal
+        GPIOR0 = (PMCR & 0x9f) | 0x40;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
 
-		// disable external crystal
-		GPIOR0 = (PMCR & 0xf2) | 0x02;
-		PMCR = 0x80;
-		PMCR = GPIOR0;
-	} else if(mode == EXT_OSC_32K) {
+        // disable external crystal
+        GPIOR0 = (PMCR & 0xf2) | 0x02;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
+    } else if(mode == EXT_OSC_32K) {
         // enable external 32K OSC crystal
         GPIOR0 = (PMCR & 0xf0) | 0x08;
         PMCR = 0x80;
@@ -84,38 +82,33 @@ void sysClock(uint8_t mode)
         GPIOR0 = (PMCR & 0x9f) | 0x60;
         PMCR = 0x80;
         PMCR = GPIOR0;
-   } else {
+   } else { // extern OSC
 
-	// set to right prescale first
-	CLKPR = 0x80;
-	CLKPR = 0x01;
+        // set to right prescale first
+        CLKPR = 0x80;
+        CLKPR = 0x01;
 
-	asm volatile ("nop");
-	asm volatile ("nop");
+        asm volatile ("nop");
+        asm volatile ("nop");
 
-	// enable external 400~32MHz OSC crystal
-	GPIOR0 = PMX2 | 0x04;
-	PMX2 = 0x80;
-	PMX2 = GPIOR0;
+        // enable external 400~32MHz OSC crystal
+        GPIOR0 = PMX2 | 0x04;
+        PMX2 = 0x80;
+        PMX2 = GPIOR0;  //enable extern osc input
 
-	GPIOR0 = (PMCR & 0xf3) | 0x04;
-	PMCR = 0x80;
-	PMCR = GPIOR0;
+        GPIOR0 = (PMCR & 0xf3) | 0x04;
+        PMCR = 0x80;
+        PMCR = GPIOR0;
 
-	// waiting for crystal stable
-	OSC_DELAY();
+        // waiting for crystal stable
+        OSC_DELAY();
 
-	// switch to external 400~32MHz crystal
-	PMCR = 0x80;
-	PMCR = 0xb7;
-	OSC_DELAY();
-
-	// disable internal 32MHz crystal
-	PMCR = 0x80;
-	PMCR = 0xb6;
-	OSC_DELAY();
+        // switch to external 400~32MHz crystal
+        PMCR = 0x80;
+        PMCR = 0xb7;
+        OSC_DELAY();
     }
-	clock_set = 1;
+    clock_set = 1;
 }
 
 void sysClockPrescale(uint8_t divn)
@@ -289,7 +282,7 @@ int main(void)
 	lgt8fx8x_init();
 
 #if defined(CLOCK_SOURCE)
-	if(clock_set == 0)
+    if (clock_set == 0)
 		lgt8fx8x_clk_src();
 #endif
 

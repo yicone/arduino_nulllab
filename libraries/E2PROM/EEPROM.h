@@ -31,11 +31,15 @@
 #include <inttypes.h>
 #include <Arduino.h>
 
+#ifndef EEROM_SIZE
+#define EEROM_SIZE 1
+#endif
+
 #define	eeprom_SWM_ON()   do { ECCR = 0x80; ECCR |= 0x10; } while(0);
 #define	eeprom_SWM_OFF()  do { ECCR = 0x80; ECCR &= 0xEF; } while(0);
 #define	eeprom_reset()    do { ECCR |= 0x20; } while(0)
 
-#define EEROM_1KB_PAGE_FREE_SIZE (uint16_t)1020
+#define EEROM_1KB_PAGE_FREE_SIZE (uint16_t)(1024-2)
 
 void eeprom_init(uint8_t _eerom_size = 1);
 int eeprom_size(bool theoretical = false);
@@ -175,7 +179,7 @@ struct EEPROMClass
     //STL and C++11 iteration capability.
     EEPtr begin()                        { return 0x00; }
     EEPtr end()                          { return length(); } //Standards requires this to be the item after the last valid entry. The returned pointer is invalid.
-    uint16_t length()                    { return (eeprom_size(false) - 720); }
+    uint16_t length()                    { return (eeprom_size(false)); }
 
     //Functionality to 'get' and 'put' objects to and from EEPROM.
     template< typename T > T &get( int idx, T &t )
