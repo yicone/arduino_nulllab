@@ -92,6 +92,8 @@ static const uint8_t A5 = 19;
 #if defined(__LGT8FX8E__) || defined(__LGT8FX8P__)
 static const uint8_t A6 = 20;
 static const uint8_t A7 = 21;
+static const uint8_t A10 = 25;
+
 #if defined(__LGT8FX8P48__)
 static const uint8_t A8 = 23;
 static const uint8_t A9 = 24;
@@ -115,13 +117,6 @@ static const uint8_t A11 = 26;
 #define D11	11	/* PB3 */
 #define D12	12	/* PB4 */
 #define D13	13	/* PB5 */
-
-#define C0	14
-#define C1	15
-#define C2	16
-#define C3	17
-#define C4	18
-#define C5	19
 
 #define D14	14	/* PC0 */
 #define D15	15	/* PC1 */
