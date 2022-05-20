@@ -70,7 +70,7 @@ SWD烧录连线如下图
 
 ![LG_ISP_boadchoice](./LG_ISP_boadchoice.png)
 
-2、由于LGT8F328P的在使用eerom情况下，如果还要使用bootloader那么实际使用flash大小只有32k-2k(模拟eerom)-1k(bootloader) = 29k，在很多场景下比如grbl，T12等大型项目使用 flash不够用，那么我们可以不适用bootloader，这样我们也需要借助编程器直接上传程序
+2、由于LGT8F328P的在使用eerom情况下，如果还要使用bootloader那么实际使用flash大小只有32k-2k(模拟eerom)-1k(bootloader) = 29k，在很多场景下比如grbl，T12等大型项目使用 flash不够用，那么我们可以使用bootloader，这样我们也需要借助编程器直接上传程序
 
 如下图
 
@@ -78,7 +78,13 @@ SWD烧录连线如下图
 
 3、上传完bootloader后，我们可以同样使用LGT-ISP的串口功能，用Arduino IDE上传应用程序![LGT-ISP](./LGT-ISP.jpg)
 
+| LGT-ISP |      |    (LGT8F328P)     |
+| :-----: | :--: | :----------------: |
+|   TX    |  ->  |        RX/0        |
+|   RX    |  ->  |        TX/1        |
+|   DTR   |  ->  | 串接100nf电容接RST |
 
+ 
 
 
 

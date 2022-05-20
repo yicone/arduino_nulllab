@@ -21,12 +21,11 @@
 - [ ] (增强型功能) [快速ADC]()
 - [x] (增强型功能) [快速IO口](./libraries/BasicsExamples/examples/FastIO/FastIO.ino) 减少代码体积，大大提升执行效率
 - [ ] (增强型功能) [2~6引脚80mA电流输出]()
-- [ ] (增强型功能) [把AREF引脚当作A10]()
+- [x] (增强型功能) [把AREF引脚当作A10](https://github.com/nulllaborg/arduino_nulllab/commit/bbad62)
 - [x] (增强型功能) [低功耗电源管理](./libraries/PMU/examples/PMU_PowerOff/PMU_PowerOff.ino)
 - [ ] (增强型功能) [DAC功能]()
 - [ ] (增强型功能) [不使用eerom，直接操作flash]()
-- [ ] [软件串口适用所有频率]()
-- [ ] [32M频率串口，延时函数适配]()
+- [x] [软件串口适用所有频率](https://github.com/nulllaborg/arduino_nulllab/commit/cda03e)
 
 ## Nulllab开发板Arduino IDE支持包 
 
@@ -94,7 +93,7 @@ b、**双击运行**-->**输入y**-->**回车**
 | 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png)                      | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
 | 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
 | 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用，功能介于Uno和Mega2560之间                |
-| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 准备量产                                                     | 开发中                                                       |
+| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | [WiKi资料](https://github.com/nulllaborg/arduino_nulllab/wiki/Mango-Uno) | 开发中                                                       |
 
 **其他基于LGT8F328P的开源项目**
 
@@ -102,6 +101,7 @@ b、**双击运行**-->**输入y**-->**回车**
 - [ ] (grbl) [基于LGT8F328P写字机](https://github.com/nulllaborg/lgt-grbl)
 - [ ] (t12-soldering-station) [基于LGT8F328P的T12开源焊台](https://github.com/nulllaborg/lgt-t12-soldering-station)
 - [ ] (晶体管测试仪)
+- [ ] [memcard 内存卡读卡器](https://github.com/ShendoXT/memcarduino)
 
 
 ##  LGT8F328P和Atmega328P芯片对比
@@ -211,7 +211,7 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 
 基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P芯片烧录bootloader的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloader的，他们的接线，烧录方法完全一致。
 
-你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考[下载方法](./libraries/Lgt328P_ISP/README_zh.md)
+你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考*[下载方法](./libraries/Lgt328P_ISP/README_zh.md)*
 
 ![](./doc/pic/ISP.png)
 
