@@ -26,6 +26,7 @@
 - [ ] (增强型功能) [DAC功能]()
 - [ ] (增强型功能) [不使用eerom，直接操作flash]()
 - [x] [软件串口适用所有频率](https://github.com/nulllaborg/arduino_nulllab/commit/cda03e)
+- [x] [读取32位芯片UUID](https://github.com/nulllaborg/arduino_nulllab/commit/c39a69)
 
 ## Nulllab开发板Arduino IDE支持包 
 
@@ -43,7 +44,7 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、[**直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.4.zip)
+1、[**直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.7.zip)
 
 2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
 
@@ -98,7 +99,7 @@ b、**双击运行**-->**输入y**-->**回车**
 **其他基于LGT8F328P的开源项目**
 
 - [x] (rf-nano) [LGT8F328P+nRF24L01+模块无线传输模块](https://github.com/nulllaborg/lgt-rf-nano)
-- [ ] (grbl) [基于LGT8F328P写字机](https://github.com/nulllaborg/lgt-grbl)
+- [ ] (grbl) [基于LGT8F328P-Grbl项目](https://github.com/nulllaborg/lgt-grbl)
 - [ ] (t12-soldering-station) [基于LGT8F328P的T12开源焊台](https://github.com/nulllaborg/lgt-t12-soldering-station)
 - [ ] (晶体管测试仪)
 - [ ] [memcard 内存卡读卡器](https://github.com/ShendoXT/memcarduino)
