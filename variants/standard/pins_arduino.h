@@ -97,7 +97,7 @@ static const uint8_t A10 = 25;
 #if defined(__LGT8FX8P48__)
 static const uint8_t A8 = 23;
 static const uint8_t A9 = 24;
-static const uint8_t A10 = 25;
+//static const uint8_t A10 = 25;
 static const uint8_t A11 = 26;
 #endif
 #endif
