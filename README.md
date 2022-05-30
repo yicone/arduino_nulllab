@@ -12,7 +12,7 @@ as an *Additional Boards Manager URL*.
 
 - Open *Tools->Board:...->Boards Manager*
 
-- Find arduino_nulllaba by typing 'ch' into the search line
+- Find arduino_nulllaba by typing 'nulllab' into the search line
 
 * Click on the list entry
 * Click on *Install*.
