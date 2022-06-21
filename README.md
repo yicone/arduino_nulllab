@@ -14,6 +14,8 @@ as an *Additional Boards Manager URL*.
 
 - Find arduino_nulllaba by typing 'nulllab' into the search line
 
+  ![boards_manager](./doc/pic/boards_manager.png)
+
 * Click on the list entry
 * Click on *Install*.
 
@@ -22,10 +24,12 @@ Now you should find a new entry *nulllab avr compatible boards* in the list at
 
 * Choose *nulllab boards* from the list
 
+  ![nullab_boards](./doc/pic/board_chioce.png)
+
 ### Task status
 
 - [x] PWM & Timers update
-- [x] Fast_IO update(/libraries/BasicsExamples/examples/FastIO/FastIO.ino)
+- [x] [Fast_IO update](./libraries/BasicsExamples/examples/FastIO/FastIO.ino)
 - [x]  [Support timer3](./libraries/MsTimer3/examples/FlashLed/FlashLed.ino)
 - [ ] Analog Comparator
 - [ ] Differential Amplifier update 
@@ -51,6 +55,10 @@ Microcontroller based on LGT8F, e.g LGT8F328P has more advanced features which n
 * *More standalone I/Os*
 
 ### Pin Different
+
+[LGT8F328P DataSheet](doc\LGT8FX8P_Databook_v1.0.5.pdf) 
+
+[Hardware Reference design](./doc/LGT328P-LQFP32-Nano.pdf) 
 
 ![pin_diff](./doc/pic/pin_diff.jpg)
 
