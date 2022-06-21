@@ -56,7 +56,7 @@ Microcontroller based on LGT8F, e.g LGT8F328P has more advanced features which n
 
 ### Pin Different
 
-[LGT8F328P DataSheet](doc\LGT8FX8P_Databook_v1.0.5.pdf) 
+[LGT8F328P DataSheet](./doc/LGT8FX8P_Databook_v1.0.5.pdf) 
 
 [Hardware Reference design](./doc/LGT328P-LQFP32-Nano.pdf) 
 
