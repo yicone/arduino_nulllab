@@ -36,7 +36,7 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-> https://raw.githubusercontent.com/nulllaborg/arduino_nulllab/master/package_nulllab_boards_index_zh.json
+> https://nulllab.coding.net/p/lgt/d/nulllab_lgt_arduino/git/raw/master/package_nulllab_boards_index_zh.json
 
 如果上面的网站打不开可以试下另外一个
 > https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index_zh.json
@@ -47,7 +47,7 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、[**直接下载最新软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.7.zip)
+1、[**直接点击下载最新LGT Arduino IDE软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.8.zip)
 
 2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
 
@@ -106,6 +106,7 @@ b、**双击运行**-->**输入y**-->**回车**
 - [ ] (t12-soldering-station) [基于LGT8F328P的T12开源焊台](https://github.com/nulllaborg/lgt-t12-soldering-station)
 - [ ] (晶体管测试仪)
 - [ ] [memcard 内存卡读卡器](https://github.com/ShendoXT/memcarduino)
+- [x] [LGT-Open-ISP](https://github.com/nulllaborg/LGT-Open-ISP)
 
 
 ##  LGT8F328P和Atmega328P芯片对比
@@ -116,10 +117,24 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 
 2、LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问，**如果使用eerom的话总flash只有30K，比他Atmega328P少2K**；
 
-3、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A8(D23)，A9(24)，A10(25)，A11(D26)模拟输入口，D22，REST，晶振引脚都可以配置成GPIO口;
+3、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A6/A7，SWC，SWD,REST，晶振引脚都可以配置成GPIO口,详情说明如下：
+
+| 32pin TQFP/QFN封装 | ATmega328P | LGT8F328P                 | 扩展的Arduino引脚功能 |
+| ------------------ | ---------- | ------------------------- | --------------------- |
+| Pin2               | XCK/T0/PD4 | XCK/T0/**DA0**/PD4        |                       |
+| Pin3               | GND        | **OC1B**/**OC0A**/**PE4** | 24                    |
+| Pin6               | VCC        | **AC10**/**OC1A**/**PE5** | 25                    |
+| Pin7               | XTALO      | XTALO/**PB6**             | 27                    |
+| Pin8               | XTALI      | XTALO/**PB7**             | 28                    |
+| Pin18              | AVCC       | **PE0**/**SWC**           | 22                    |
+| Pin19              | ADC6       | **PE1**/ADC6              | 20可做IO口            |
+| Pin20              | AREF       | **PE6**/**ADC10**/AVREF   | 26/A10                |
+| Pin21              | GND        | **PE2**/**SWD**           | 23                    |
+| Pin22              | ADC7       | **PE3**/ADC7              | 21可做IO口            |
+| Pin31              | PD1/TXD    | PD1/TXD/**OC3**           |                       |
+| Pin32              | PD2/INT0   | PD2/INT0/**OC3B**         |                       |
 
 4、LGT8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
-
 
 ## DIY模式说明
 
@@ -218,6 +233,12 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考*[下载方法](./libraries/Lgt328P_ISP/README_zh.md)*
 
 ![](./doc/pic/ISP.png)
+
+#### **LGT开源烧录器 **
+
+四川邦德电子有限公司大佬陈总&李总针对LGT8F328P设计了一款多功能开源烧录器
+
+可以直接前往[**LGT-Open-ISP**](https://github.com/nulllaborg/LGT-Open-ISP)
 
 ## 感谢
 
