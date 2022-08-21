@@ -36,7 +36,7 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-> https://nulllab.coding.net/p/lgt/d/nulllab_lgt_arduino/git/raw/master/package_nulllab_boards_index_zh.json
+> https://gitee.com/nulllab/nulllab_arduino/raw/master/package_nulllab_boards_index_zh.json
 
 如果上面的网站打不开可以试下另外一个
 > https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index_zh.json
