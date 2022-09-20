@@ -97,7 +97,7 @@ b、**双击运行**-->**输入y**-->**回车**
 | 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png)                      | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
 | 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
 | 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用，功能介于Uno和Mega2560之间                |
-| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a1z10.5-c-s.w4002-21257395099.47.1e64226e0PHZp6&id=650808111227) | [WiKi资料](https://github.com/nulllaborg/arduino_nulllab/wiki/Mango-Uno) | 开发中                                                       |
+| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | [WiKi资料](https://github.com/nulllaborg/arduino_nulllab/wiki/Mango-Uno) | 开发中                                                       |
 
 **其他基于LGT8F328P的开源项目**
 
