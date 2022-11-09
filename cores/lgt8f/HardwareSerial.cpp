@@ -125,7 +125,7 @@ void HardwareSerial::begin(unsigned long baud, byte config)
   // on the 8U2 on the Uno and Mega 2560. Also, The baud_setting cannot
   // be > 4095, so switch back to non-u2x mode if the baud rate is too
   // low.
-  if (((F_CPU == 16000000UL) && (baud == 57600)) || (baud_setting >4095))
+  if (((F_CPU == 16000000UL) && (baud == 57600)) || (baud_setting >4095) || ((F_CPU == 32000000UL) && (CLOCK_SOURCE == INT_OSC_32M)))
   {
     *_ucsra = 0;
    // baud_setting = (F_CPU / 8 / baud - 1) / 2;
