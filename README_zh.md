@@ -49,7 +49,8 @@
 ### 方法二、手动安装
 1、[**直接点击下载最新LGT Arduino IDE软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.8.zip)
 
-2、将解压并修改名字到**arduino-ide\hardware\arduino_nulllab-master\avr\\**这个目录下要看到 **boards.txt**和**platform.txt**文件
+2、将下载后的文件解压将里面的文件拷贝到(IDE安装目录)**arduino-ide\hardware\arduino_nulllab-master\avr\\**下，如果没有该目录文件，请先创建对应名字的文件夹，最后要
+这个目录下要看到 **boards.txt**和**platform.txt**等这些文件，就代表软件包安装正确。
 
 3、重新打开Arduino IDE应用程序
 
