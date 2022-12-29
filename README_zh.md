@@ -36,7 +36,7 @@
 1、文件->首选项，得到如下界面
 
 2、在附加开发板管理器网址输入如下网址：
-> https://gitee.com/nulllab/nulllab_arduino/raw/master/package_nulllab_boards_index_zh.json
+>  http://39.108.252.158:8089/nulllab/package_nulllab_boards_index_zh.json
 
 如果上面的网站打不开可以试下另外一个
 > https://cdn.jsdelivr.net/gh/nulllaborg/arduino_nulllab/package_nulllab_boards_index_zh.json
@@ -47,7 +47,7 @@
 搜索nulllab,选择最新版本安装（如果搜索不到，请安装arduino IDE1.8.15以上）
 
 ### 方法二、手动安装
-1、[**直接点击下载最新LGT Arduino IDE软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.8.zip)
+1、[**直接点击下载最新LGT Arduino IDE软件支持包**](http://39.108.252.158:8089/nulllab_arduino-1.0.9.zip)
 
 2、将下载后的文件解压将里面的文件拷贝到(IDE安装目录)**arduino-ide\hardware\arduino_nulllab-master\avr\\**下，如果没有该目录文件，请先创建对应名字的文件夹，最后要
 这个目录下要看到 **boards.txt**和**platform.txt**等这些文件，就代表软件包安装正确。
@@ -98,7 +98,7 @@ b、**双击运行**-->**输入y**-->**回车**
 | 图片 | ![](./doc/pic/nano3.1.png)                                   | ![](./doc/pic/nano_pro.png)                                  | ![maker-nano](./doc/pic/maker-nano.png)                      | ![](./doc/pic/mango_uno.png)                                 | ![](./doc/pic/orion.png)                                     |
 | 参数 | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18MM | CH340G下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：45x18mm | 兼容官方驱动下载芯片<br />内部晶振<br />16M主频<br />PCB尺寸：56x32mm | 兼容官方驱动下载芯片<br />外部16M晶振<br />16M主频<br />PCB尺寸：68.6x53.4mm | 兼容官方驱动下载芯片<br />外部32M晶振<br />32M主频<br />PCB尺寸： |
 | 特点 | Mini-Usb接口<br />尺寸完全兼容官方arduino nano 3.0           | Micro-Usb接口<br />功能尺寸兼容Nano V3.0单面贴片             | Micro-Usb接口<br />板载2路电机驱动(最大1.5A输出)<br />兼容乐高孔 | Type-B usb接口<br />尺寸完全兼容官方arduino uno r3           | 补强Uno IO口不够用，功能介于Uno和Mega2560之间                |
-| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | [WiKi资料](https://github.com/nulllaborg/arduino_nulllab/wiki/Mango-Uno) | 开发中                                                       |
+| 状态 | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | 已量产<br />[淘宝](https://item.taobao.com/item.htm?spm=a213gs.success.result.1.45cb7a86ozjviD&id=684585007007) | [淘宝链接](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-21556097790.39.63a368fepTKPQ7&id=684585007007) | [WiKi资料](https://github.com/nulllaborg/arduino_nulllab/wiki/Mango-Uno) |                                                              |
 
 **其他基于LGT8F328P的开源项目**
 
@@ -227,11 +227,11 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
     PM_POFFS2 
     period 为唤醒时间间隔，SLEEP_FOREVER为直接睡眠
 
-### [LGT8F328P as ISP](./libraries/Lgt328P_ISP/README_zh.md)
+### [LGT8F328P as ISP点击参考](./libraries/Lgt328P_ISP/README_zh.md)
 
 基于Atmega328P的Arduino Uno系类主板是可以给LGT8F328P芯片烧录bootloader的，那么当然基于LGT8F328P的主板也同样可以给LGT8F32P系类芯片烧录bootloader的，他们的接线，烧录方法完全一致。
 
-你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序然后参考*[下载方法](./libraries/Lgt328P_ISP/README_zh.md)*
+你的手里LGT系类主板或者arduino主板需要先烧录[Lgt328P_ISP](./libraries./Lgt328P_ISP./Lgt328P_ISP.ino)程序。
 
 ![](./doc/pic/ISP.png)
 
