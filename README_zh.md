@@ -114,11 +114,13 @@ b、**双击运行**-->**输入y**-->**回车**
 
 LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48三个封装芯片详细查看[数据手册]( ./doc/LGT8FX8P_Databook_v1.0.5.pdf) 。
 
-1、增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内,**支持内部晶振，可运行在最高32MHz的核心频率**; 
+1、Atmega328P的烧录方式为ICSP（SPI协议），LGT8F328P烧录方式不是ICSP，烧录方式为SWD，且没有熔丝位的概念，芯片烧录完自动加密，无法读取flash数据。
 
-2、LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问，**如果使用eerom的话总flash只有30K，比他Atmega328P少2K**；
+2、增强8位RISC内核, 支持16位数字运行扩展, 在1.8V – 5.5V的工作范围内,**支持内部晶振，可运行在最高32MHz的核心频率**，Atmega328P无内部晶振; 
 
-3、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A6/A7，SWC，SWD,REST，晶振引脚都可以配置成GPIO口,详情说明如下：
+3、LGT8F328P内部32K字节FLASH程序存储器, 2K字节数据SRAM, 内置将FLASH模拟为EEPROM的控制逻辑, 可以根据应用需要将程序FLASH的一部分划分为数据FLASH空间, 通过EEPROM控制器实现类似EEPROM的接口访问，**如果使用eerom的话总flash只有30K，比Atmega328P少2K**；
+
+4、LGT8F328P集成更多硬件资源和外设, 包括12位ADC，timer3， 高精度1.024/2.048/4.096V内部参考电压， 8位DAC以及高速模拟比较器，A6/A7，SWC，SWD,REST，晶振引脚都可以配置成GPIO口,详情说明如下：
 
 | 32pin TQFP/QFN封装 | ATmega328P | LGT8F328P                 | 扩展的Arduino引脚功能 |
 | ------------------ | ---------- | ------------------------- | --------------------- |
@@ -135,7 +137,7 @@ LGT8FX8P系列微控制器目前主要包括LGT8F328P-SSOP20，LQFP32，LQFP48�
 | Pin31              | PD1/TXD    | PD1/TXD/**OC3**           |                       |
 | Pin32              | PD2/INT0   | PD2/INT0/**OC3B**         |                       |
 
-4、LGT8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
+5、LGT8F328P架构设计比较新，外设功能远远强于Atmega328P。尤其是程序加密能力更是远超Atmega328P。
 
 ## DIY模式说明
 
