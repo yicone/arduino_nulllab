@@ -1,4 +1,4 @@
-**[中文](README_zh.md)**
+**[国内访问请查看中文版使用说明](README_zh.md)**
 # Arduino Hardware Support Package for LGT8F's 
 
 Automatic IDE integration is supported via the
